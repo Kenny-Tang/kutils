@@ -7,23 +7,23 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 
-public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
+public class Dates extends org.apache.commons.lang3.time.DateUtils {
 
-    public static final String DATE_YYYY_MM = "yyyy-MM";
-    public static final String DATE_YYYYMM = "yyyyMM";
-    public static final String DATE_YYYY_MM_DD = "yyyy-MM-dd";
-    public static final String DATE_YYYYMMDD = "yyyyMMdd";
-    public static final String DATE_HH_MM_SS = "HH:mm:ss";
-    public static final String DATE_HHMMSS = "HHmmss";
-    public static final String DATE_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
-    public static final String DATE_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
-    public static final String DATE_YYYY_MM_DD_HH_MM_SS_S = "yyyy-MM-dd HH:mm:ss.S";
+    public static final String FMT_YYYY_MM = "yyyy-MM";
+    public static final String FMT_YYYYMM = "yyyyMM";
+    public static final String FMT_YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String FMT_YYYYMMDD = "yyyyMMdd";
+    public static final String FMT_HH_MM_SS = "HH:mm:ss";
+    public static final String FMT_HHMMSS = "HHmmss";
+    public static final String FMT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    public static final String FMT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+    public static final String FMT_YYYY_MM_DD_HH_MM_SS_S = "yyyy-MM-dd HH:mm:ss.S";
     
     /**
-     * 将一个字符串的日期按照指定的pattern转换成Date对象。
+          * 将一个字符串的日期按照指定的pattern转换成Date对象。
      * 
      * @param dateStr
-     *            字符串的日期
+          *     字符串的日期
      * @param pattern
      * @return Date
      */
@@ -32,7 +32,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
             return null;
         }
         if (pattern == null || pattern.equals("")) {
-            pattern = DATE_YYYY_MM_DD;
+            pattern = FMT_YYYY_MM_DD;
         }
         try {
             return new SimpleDateFormat(pattern).parse(dateStr);

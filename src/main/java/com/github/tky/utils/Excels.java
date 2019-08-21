@@ -20,9 +20,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExcelUtil {
+public class Excels {
     
-    private static final Logger logger = LoggerFactory.getLogger(ExcelUtil.class) ;
+    private static final Logger logger = LoggerFactory.getLogger(Excels.class) ;
     private final static String CONTENTTYPE = "application/vnd.ms-excel";
 
     private final static String CONTENTTYPEXML = "text/xml";

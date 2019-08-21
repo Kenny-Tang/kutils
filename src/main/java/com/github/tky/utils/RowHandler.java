@@ -9,7 +9,7 @@ public abstract class RowHandler<T> {
     public abstract String[] getTitle();
 
     public  String getFilename(){
-        return DateUtils.format(new Date(), DateUtils.DATE_YYYYMMDDHHMMSS);
+        return Dates.format(new Date(), Dates.FMT_YYYYMMDDHHMMSS);
     }
     
     public boolean textOnly(){

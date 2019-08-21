@@ -1,6 +1,11 @@
 package com.github.tky.utils;
 
-public class StringUtils extends org.apache.commons.lang3.StringUtils {
+/**
+ * 
+ * @author Kenny
+ *
+ */
+public class Strings extends org.apache.commons.lang3.StringUtils {
     
     /**
      * 将字符串调整成可以在 in 条件中使用的形式<br/>
@@ -14,7 +19,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         String[] list = inList.split(",");
         StringBuffer condation = new StringBuffer(" ");
         for (int i = 0; i < list.length; i++) {
-            if (!StringUtils.isBlank(list[i]))
+            if (!isBlank(list[i]))
                 condation.append("'").append(list[i].trim()).append("',");
         }
         condation.replace(condation.length() - 1, condation.length(), " ");

@@ -1,5 +1,5 @@
 package com.github.tky.utils;
 
-public class NumericUtilsTest {
+public class Numerics {
 
 }

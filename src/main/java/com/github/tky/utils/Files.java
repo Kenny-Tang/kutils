@@ -11,7 +11,7 @@ import java.nio.channels.FileChannel;
  * @author Kenny
  *
  */
-public class FileUtils {
+public class Files {
 
     public static final int BSIZE = 1024 ;
     
