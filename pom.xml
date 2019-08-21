@@ -11,6 +11,18 @@
     <name>Utils</name>
     <url>http://maven.apache.org</url>
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/Kenny-Tang/kutils</url>
+        <connection>https://github.com/Kenny-Tang/kutils.git</connection>
+        <developerConnection>https://github.com/Kenny-Tang/kutils</developerConnection>
+    </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springframework.version>4.1.0.RELEASE</springframework.version>
@@ -88,4 +100,11 @@
             </plugin>
         </plugins>
     </build>
+    <developers>
+        <developer>
+            <name>Kenny</name>
+            <email>kenny-tang@hotmail.com</email>
+            <url>https://github.com/Kenny-Tang/kutils</url>
+        </developer>
+    </developers>
 </project>
