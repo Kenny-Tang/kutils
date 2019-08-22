@@ -1,4 +1,4 @@
-package com.github.tky.utils;
+package com.github.tky.kutils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

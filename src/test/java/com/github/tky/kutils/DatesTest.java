@@ -1,10 +1,11 @@
-package com.github.tky.utils;
+package com.github.tky.kutils;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
 
+import com.github.tky.kutils.Dates;
 import com.test.BaseTest;
 
 public class DatesTest extends BaseTest {
