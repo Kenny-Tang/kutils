@@ -41,12 +41,12 @@ public class Numerics {
      * @param twoAmount 乘数
      * @return 两个参数的积
      */
-    public static BigDecimal multiply(double oneAmount, double twoAmount, int scale) {
-        return BigDecimal.valueOf(oneAmount).multiply(BigDecimal.valueOf(twoAmount)).setScale(scale);
+    public static BigDecimal multiply(double oneAmount, double twoAmount, int scale, RoundingMode roundingMode) {
+        return BigDecimal.valueOf(oneAmount).multiply(BigDecimal.valueOf(twoAmount)).setScale(scale, roundingMode);
     }
     
-    public static BigDecimal multiply(BigDecimal oneAmount, BigDecimal twoAmount, int scale) {
-        return oneAmount.multiply(twoAmount).setScale(scale);
+    public static BigDecimal multiply(BigDecimal oneAmount, BigDecimal twoAmount, int scale, RoundingMode roundingMode) {
+        return oneAmount.multiply(twoAmount).setScale(scale, roundingMode);
     }
 
     /**
