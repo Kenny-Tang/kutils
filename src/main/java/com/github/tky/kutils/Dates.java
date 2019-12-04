@@ -43,25 +43,6 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
     }
 
     /**
-     * 获取N周前的周一
-     * @param week 几周前
-     * @return
-     */
-    public static String firstDayOfWeek(int week){
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar = new GregorianCalendar();
-        int iWeekNum = calendar.get(Calendar.WEEK_OF_YEAR);
-        // 取得本周一
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
-                0, 0);
-        calendar.set(Calendar.WEEK_OF_YEAR, iWeekNum - week);
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        return sf.format(calendar.getTime());
-    }
-    
-    
-    /**
      *  计算时间间隔（返回：*年*个月）
      *  @param start 开始时间
      *  @param end  结束时间
@@ -112,7 +93,7 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
      * @param date 要调整的时间
      * @param count 调整的数量
      * @param model 调整的域，Calendar.YEAR :年， Calendar.MONTH :月 ，Calendar.DAY_OF_MONTH:日 
-     * @return
+     * @return 增加指定日期间距后的时间
      */
     public static Date addDateTime(Date date,int count ,int model){
         Calendar cal = new GregorianCalendar();

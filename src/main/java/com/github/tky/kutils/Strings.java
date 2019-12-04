@@ -13,7 +13,7 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
      *      eg: a,b,c 将转化成 'a','b','c'
      *  </pre>
      * @param inList
-     * @return
+     * @return string can append to a sql
      */
     public static String splitAsInCondation(String inList) {
         String[] list = inList.split(",");
