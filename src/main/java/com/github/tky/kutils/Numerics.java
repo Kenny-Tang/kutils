@@ -77,7 +77,12 @@ public class Numerics {
     public static boolean eq(BigDecimal onwAmount, BigDecimal twoAmount) {
         return onwAmount.compareTo(twoAmount) == 0;
     }
-
+    
+    public static boolean eq(double d1, double d2, int scale, RoundingMode roundingMode) {
+        BigDecimal onwAmount = new BigDecimal(d1).setScale(scale,roundingMode) ;
+        BigDecimal twoAmount = new BigDecimal(d2).setScale(scale,roundingMode) ;
+        return onwAmount.compareTo(twoAmount) == 0;
+    }
     /**
      * 比较第一个数是否比第二个数小
      * @param onwAmount 第一个数
@@ -95,6 +100,20 @@ public class Numerics {
      * @return 比较结果
      */
     public static boolean gt(BigDecimal onwAmount, BigDecimal twoAmount) {
+        return onwAmount.compareTo(twoAmount) > 0;
+    }
+    
+    /**
+     * 使用指定精度比较两个浮点数据
+     * @param d1 first
+     * @param d2 second
+     * @param scale
+     * @param roundingMode {@link RoundingMode}
+     * @return 比较结果
+     */
+    public static boolean gt(double d1, double d2, int scale, RoundingMode roundingMode) {
+        BigDecimal onwAmount = new BigDecimal(d1).setScale(scale,roundingMode) ;
+        BigDecimal twoAmount = new BigDecimal(d2).setScale(scale,roundingMode) ;
         return onwAmount.compareTo(twoAmount) > 0;
     }
 

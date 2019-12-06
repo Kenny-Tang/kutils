@@ -13,6 +13,7 @@ import java.nio.channels.FileChannel;
  */
 public class Files {
 
+    private Files() {}
     public static final int BSIZE = 1024 ;
     
     /**

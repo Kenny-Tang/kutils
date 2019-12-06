@@ -1,5 +1,7 @@
 package com.github.tky.kutils;
 
+import com.github.tky.kutils.handler.InPropertyHandler;
+
 /**
  * 
  * @author Kenny
@@ -7,6 +9,7 @@ package com.github.tky.kutils;
  */
 public class Strings extends org.apache.commons.lang3.StringUtils {
     
+    private Strings() {}
     /**
      * 将字符串调整成可以在 in 条件中使用的形式<br/>
      *  <pre>
@@ -25,4 +28,29 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
         condation.replace(condation.length() - 1, condation.length(), " ");
         return condation.toString();
     }
+    
+    /**
+     * 
+     * @param <T>
+     * @param inList
+     * @param handler
+     * @return
+     */
+    public static  <T> String splitAsInCondation(java.util.List<T> inList, InPropertyHandler<T> handler) {
+        StringBuffer condation = new StringBuffer("");
+        for (int i = 0; i < inList.size(); i++) {
+            String inItem = null ;
+            if(handler != null) {
+                inItem = handler.inItem(inList.get(i)) ;
+            }else {
+                inItem = inList.toString() ;
+            }
+            if (!isBlank(inItem))
+                condation.append("'").append(inItem.trim()).append("',");
+        }
+        condation.replace(condation.length() - 1, condation.length(), "");
+        return condation.toString();
+    }
+    
+    
 }

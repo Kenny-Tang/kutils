@@ -5,7 +5,7 @@
 
     <groupId>com.github.kenny-tang</groupId>
     <artifactId>kutils</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <packaging>jar</packaging>
 
     <description>kutils is could help you avoid repeat works on commom tools, such as DateUtils StringUtils.</description>

@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 
 public class Dates extends org.apache.commons.lang3.time.DateUtils {
 
+    private Dates() {} 
     public static final String FMT_YYYY_MM = "yyyy-MM";
     public static final String FMT_YYYYMM = "yyyyMM";
     public static final String FMT_YYYY_MM_DD = "yyyy-MM-dd";
