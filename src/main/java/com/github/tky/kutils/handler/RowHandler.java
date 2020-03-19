@@ -10,6 +10,10 @@ public abstract class RowHandler<T> {
 
     public abstract String[] getTitle();
 
+    /**
+     * Use the current time as the default filename 
+     * @return current tiem as string 
+     */
     public  String getFilename(){
         return Dates.format(new Date(), Dates.FMT_YYYYMMDDHHMMSS);
     }
