@@ -1,11 +1,17 @@
 package com.github.tky.kutils.mybatis;
 
 public class XmlMapperHandler {
-    /** 声明部分  */
-    public static String declare = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" + 
-            "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\" >\n" ;
-    /** Mapper 主体开始 */
-    public static String mapper_head ;
+    
+    /** 制表符 */
+    public static String TAB_SPACE2 = "  " ;
+    public static String TAB_SPACE4 = "    " ;
+    public static String TAB_SPACE8 = "        " ;
+    /** 换行 */
+    public static String NEW_LINE = "\n";
+    /** 文档类型声明 */
+    public static String DOC_TYPE_NAME ;
+    public static String DOC_TYPE_PUBLIC_ID ;
+    public static String DOC_TYPE_SYSTEM_ID ;
     /** table columms  */
     public static String base_clumns ;
     
