@@ -22,9 +22,9 @@ public class Dom4jTest extends BaseTest {
             // 添加根节点
             Element mapper = document.addElement("mapper");
             mapper.addAttribute("namespace" , "com.github.tky.Mapper");
-            Element sql = mapper.addElement("sql ");
+            Element sql = mapper.addElement("sql");
             sql.addAttribute("id", "base_columns");
-            sql.setText("\n        id , optimistic, pos_cati, pos_sn, type, soft_version, param_version, customer_no , shop_id, shop_no, pos_sn_activity, phone_no, "
+            sql.setText("\n       insert id , optimistic, pos_cati, pos_sn, type, soft_version, param_version, customer_no , shop_id, shop_no, pos_sn_activity, phone_no, "
                     + "create_time, update_time, manage_password,  mkey, mkey_last_modify_time\n    ");
             Element insert = mapper.addElement("insert");
             insert.addAttribute("id", "insert");
