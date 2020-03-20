@@ -2,6 +2,7 @@ package com.github.tky.kutils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.MappedByteBuffer;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -9,23 +10,34 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.jsp.jstl.core.Config;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
 import com.github.tky.kutils.mybatis.ColumnHandler;
 import com.github.tky.kutils.mybatis.JdbcDriver;
 import com.github.tky.kutils.mybatis.MyConfig;
+import com.github.tky.kutils.mybatis.XmlMapperHandler;
 import com.google.common.base.CaseFormat;
 
 public class MyBatisUtils {
 
     
     public static void generateMapperXml(MyConfig config, String projectDir) throws Exception {
-        File xml = createXmlMapper(config, projectDir);
+        File xml = createXmlFile(config, projectDir);
     }
     
-    private void writeMapperXml(File file) {
-        
+    private void writeMapperXml(File file, MyConfig config) {
+        Document document = DocumentHelper.createDocument() ;
+        document.addDocType(XmlMapperHandler.DOC_TYPE_NAME, XmlMapperHandler.DOC_TYPE_PUBLIC_ID, XmlMapperHandler.DOC_TYPE_SYSTEM_ID) ;
+        Element root = DocumentHelper.createElement("mapper") ;
+        root.addAttribute("namespace", config.getNamespacePrefix()) ;
+        document.addElement(arg0)
     }
     
-    private static File createXmlMapper(MyConfig config, String projectDir) throws IOException {
+    private static File createXmlFile(MyConfig config, String projectDir) throws IOException {
         String xmlName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, config.getTable()).concat("Mapper.xml") ;
         String abs = projectDir + config.getRelativePath() + config.getNamespacePrefix().replace(".", "/") + "/" ;
         File packages = new File( abs ) ;
@@ -36,13 +48,6 @@ public class MyBatisUtils {
         }
         xml.createNewFile() ;
         return xml;
-    }
-    
-    public static void main(String[] args) throws Exception {
-        MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://localhost:3306/kenny", "root", "123456", "order", "com.tky.trans") ;
-        List<ColumnHandler> columns = getColumnInfo(config) ;
-        System.out.println(columns);
-        generateMapperXml(config, "E:/Kenny/GitHub/ares");
     }
     
     public static List<ColumnHandler> getColumnInfo(MyConfig config) {
