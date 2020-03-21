@@ -18,32 +18,44 @@ public class Dom4jTest extends BaseTest {
         try {
             //创建文档
             Document document = DocumentHelper.createDocument();
-            document.addDocType("mapper", "PUBLIC", "-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd") ;
             // 添加根节点
-            Element mapper = document.addElement("mapper");
-            mapper.addAttribute("namespace" , "com.github.tky.Mapper");
-            Element sql = mapper.addElement("sql");
-            sql.addAttribute("id", "base_columns");
-            sql.setText("\n       insert id , optimistic, pos_cati, pos_sn, type, soft_version, param_version, customer_no , shop_id, shop_no, pos_sn_activity, phone_no, "
-                    + "create_time, update_time, manage_password,  mkey, mkey_last_modify_time\n    ");
-            Element insert = mapper.addElement("insert");
-            insert.addAttribute("id", "insert");
-            insert.setText(" insert into phone_pos \r\n" + 
-                    "            (<include refid=\"base_columns\"></include>)\r\n" + 
-                    "        values(seq_phone_pos_id.nextval ,0,#{posCati,jdbcType=VARCHAR},#{posSn ,jdbcType=VARCHAR},#{type ,jdbcType=VARCHAR}, #{ softVersion ,jdbcType=VARCHAR},#{ paramVersion ,jdbcType=VARCHAR},\r\n" + 
-                    "            #{ customerNo },#{ shopId},#{ shopNo},#{ posSnActivity  ,jdbcType=VARCHAR }, #{phoneNo ,jdbcType=VARCHAR }, sysdate, #{updateTime }, #{managePassword }, #{mKey },#{mKeyLastModifyTime}) "
-                    + "\r\n    ");
-            //设置输出格式            
+            Element root = document.addElement("books");
+            // 添加书籍
+            Element ldj = root.addElement("book");
+            Element ldjName = ldj.addElement("name") ;
+            ldjName.setText("鹿鼎记");
+            Element ldjAuth = ldj.addElement("author") ;
+            ldjAuth.setText("金庸");
+            Element ldjC = ldj.addElement("character") ;
+            ldjC.setText("韦小宝");
+            
+            Element tlbb = root.addElement("book");
+            Element tlbbName = tlbb.addElement("name") ;
+            tlbbName.setText("天龙八部");
+            Element tlbbAuth = tlbb.addElement("author") ;
+            tlbbAuth.setText("金庸");
+            Element tlbbC = tlbb.addElement("character") ;
+            tlbbC.setText("乔峰");
+            
+            Element xajh = root.addElement("book");
+            Element xajhName = xajh.addElement("name") ;
+            xajhName.setText("笑傲江湖");
+            Element xajhAuth = xajh.addElement("author") ;
+            xajhAuth.setText("金庸");
+            Element xajhC = xajh.addElement("character") ;
+            xajhC.setText("令狐冲");
+            
+            //设置输出格式 使用格式化输出
             OutputFormat format = OutputFormat.createPrettyPrint();
             //设置文件编码
-            format.setEncoding("UTF-8");        
+            format.setEncoding("UTF-8");
+            // 添加文本时不进行去空格处理
             format.setTrimText(false);
+            // 使用4空格缩进，默认使用2空格缩进
             format.setIndentSize(4);
-            format.setNewlines(true);
-            format.setNewLineAfterNTags(1);
             //将写好的文档document输出到指定XML文件中并关闭XMLWriter对象
             XMLWriter xml = new XMLWriter(new FileOutputStream("books.xml"),format);
-                 //有时候我们的内容text中会有诸如/、>之类的，我们要告诉XML,不要转义这些字符
+            //有时候我们的内容text中会有诸如/、>之类的，我们要告诉XML,不要转义这些字符
             xml.setEscapeText(false);
             xml.write(document);
             xml.close();
