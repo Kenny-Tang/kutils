@@ -6,17 +6,14 @@ public class XmlMapperHandler {
     public static String TAB_SPACE2 = "  " ;
     public static String TAB_SPACE4 = "    " ;
     public static String TAB_SPACE8 = "        " ;
-    public static String TAB_SPACE12 = "            " ;
     /** 换行 */
     public static String NEW_LINE = "\n";
     /** 文档类型声明 */
-    public static String DOC_TYPE_NAME = "mapper"; 
-    public static String DOC_TYPE_PUBLIC_ID = "PUBLIC";
-    public static String DOC_TYPE_SYSTEM_ID = "-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd" ;
-    // 默认Mapper 后缀
-    public static String MAPPER_SUFFIX = "Mapper" ;
-    /** table columms sql */
-    public static String BASE_COLUMNS_ID = "base_columns" ;
+    public static String DOC_TYPE_NAME ;
+    public static String DOC_TYPE_PUBLIC_ID ;
+    public static String DOC_TYPE_SYSTEM_ID ;
+    /** table columms  */
+    public static String base_clumns ;
     
     /** method elements */
     public static String create ;

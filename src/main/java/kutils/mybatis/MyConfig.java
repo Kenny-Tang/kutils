@@ -1,7 +1,5 @@
 package com.github.tky.kutils.mybatis;
 
-import com.google.common.base.CaseFormat;
-
 public class MyConfig {
     
     private JdbcDriver driver;
@@ -27,13 +25,6 @@ public class MyConfig {
         this.namespacePrefix = namespacePrefix;
     }
 
-    public String getQueryName() {
-        return namespacePrefix.concat(".bean.param.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, getTable())).concat("Query") ;
-    }
-    public String getEntityFullName() {
-        
-        return namespacePrefix.concat(".entity.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)) ;
-    }
      
     public String getRelativePath() {
         return relativePath;

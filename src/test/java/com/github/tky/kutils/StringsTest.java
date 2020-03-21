@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.github.tky.kutils.handler.InPropertyHandler;
+import com.github.tky.kutils.str.InPropertyHandler;
 
 public class StringsTest {
 

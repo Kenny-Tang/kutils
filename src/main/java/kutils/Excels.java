@@ -20,7 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.tky.kutils.excel.RowHandler;
+import com.github.tky.kutils.handler.RowHandler;
 
 public class Excels {
     

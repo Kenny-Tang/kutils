@@ -1,6 +1,6 @@
 package com.github.tky.kutils;
 
-import com.github.tky.kutils.str.InPropertyHandler;
+import com.github.tky.kutils.handler.InPropertyHandler;
 
 /**
  * 

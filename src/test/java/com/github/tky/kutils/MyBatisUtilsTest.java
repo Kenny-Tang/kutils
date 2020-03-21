@@ -16,8 +16,9 @@ public class MyBatisUtilsTest extends BaseTest {
 
     @Test
     public void testGenerateMapper() {
-        MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://localhost:3306/kenny", "root", "123456", "order", "") ;
+        MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://localhost:3306/kenny", "root", "123456", "order", "com.github.tky") ;
         List<ColumnHandler> columns = MyBatisUtils.getColumnInfo(config) ;
         assertTrue(columns.size() > 0);
+        MyBatisUtils.generateMapperXml(config, "E:/Kenny/GitHub/ares");
     }
 }
