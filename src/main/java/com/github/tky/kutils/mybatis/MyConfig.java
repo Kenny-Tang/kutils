@@ -10,7 +10,8 @@ public class MyConfig {
     private String password ;
     private String table ;
     private String namespacePrefix ;
-    private String relativePath = "/src/main/resources/" ;
+    private String relativePathMapperXml = "/src/main/resources/" ;
+    private String relativePathJava= "/src/main/java/" ;
     @Override
     public String toString() {
         return "MyConfig [driver=" + driver + ", url=" + url + ", username=" + username + ", password=" + password
@@ -34,12 +35,18 @@ public class MyConfig {
         
         return namespacePrefix.concat(".entity.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)) ;
     }
-     
-    public String getRelativePath() {
-        return relativePath;
+    
+    public String getRelativePathJava() {
+        return relativePathJava;
     }
-    public void setRelativePath(String relativePath) {
-        this.relativePath = relativePath;
+    public void setRelativePathJava(String relativePathJava) {
+        this.relativePathJava = relativePathJava;
+    }
+    public String getRelativePathMapperXml() {
+        return relativePathMapperXml;
+    }
+    public void setRelativePathMapperXml(String relativePathMapperXml) {
+        this.relativePathMapperXml = relativePathMapperXml;
     }
     public String getDriver() {
         return driver.getDriver();

@@ -70,21 +70,21 @@ public class MyBatisUtils {
         query.addAttribute("id", "query") ;
         String queryName =  config.getQueryName() ;
         query.addAttribute("parameterType", queryName) ;
-        StringBuffer sql = new StringBuffer(XmlMapperHandler.NEW_LINE) ;
-        sql.append(XmlMapperHandler.TAB_SPACE8) ;
+        StringBuffer sql = new StringBuffer(KConstants.NEW_LINE) ;
+        sql.append(KConstants.TAB_SPACE8) ;
         sql.append("select <include refid=\"base_columns\" /> \n") ;
-        sql.append(XmlMapperHandler.TAB_SPACE8).append("from ").append(config.getTable()).append(XmlMapperHandler.NEW_LINE) ;
-        sql.append(XmlMapperHandler.TAB_SPACE8).append("where 1=1");
-        sql.append(XmlMapperHandler.NEW_LINE).append(XmlMapperHandler.TAB_SPACE4) ;
+        sql.append(KConstants.TAB_SPACE8).append("from ").append(config.getTable()).append(KConstants.NEW_LINE) ;
+        sql.append(KConstants.TAB_SPACE8).append("where 1=1");
+        sql.append(KConstants.NEW_LINE).append(KConstants.TAB_SPACE4) ;
         query.setText(sql.toString());
         List<ColumnHandler> handlers = getColumnInfo(config) ;
         for (int i = 0; i < handlers.size(); i++) {
             ColumnHandler handler = handlers.get(i) ;
             if(ColumnType.VARCHAR.code().equals(handler.getTypeName())) {
                 Element test = query.addElement("if") ;
-                String attr = handler.getField().concat(" != null and ").concat(handler.getField()).concat(" != ''");
+                String attr = handler.getFieldName().concat(" != null and ").concat(handler.getFieldName()).concat(" != ''");
                 test.addAttribute("test", attr);
-                String cSql = " and " + handler.getColumnName() + " = #{"+handler.getField()+"}" ;
+                String cSql = " and " + handler.getColumnName() + " = #{"+handler.getFieldName()+"}" ;
                 test.setText(cSql); 
             }
         }
@@ -93,20 +93,20 @@ public class MyBatisUtils {
     private static void createUpdateElement(Element root, MyConfig config) {
         root.addComment(" 更新操作 ");
         Element update = root.addElement("update") ;
-        StringBuffer sql = new StringBuffer(XmlMapperHandler.NEW_LINE) ;
-        sql.append(XmlMapperHandler.TAB_SPACE8) ;
-        sql.append("update ").append(config.getTable()).append(XmlMapperHandler.NEW_LINE) ;
-        sql.append(XmlMapperHandler.TAB_SPACE8).append("set ").append(XmlMapperHandler.NEW_LINE) ;
+        StringBuffer sql = new StringBuffer(KConstants.NEW_LINE) ;
+        sql.append(KConstants.TAB_SPACE8) ;
+        sql.append("update ").append(config.getTable()).append(KConstants.NEW_LINE) ;
+        sql.append(KConstants.TAB_SPACE8).append("set ").append(KConstants.NEW_LINE) ;
         List<ColumnHandler> handlers = getColumnInfo(config) ;
         for (int i = 0; i < handlers.size(); i++) {
             ColumnHandler handler = handlers.get(i) ;
-            sql.append(XmlMapperHandler.TAB_SPACE12).append(handler.getColumnName()).append(" = ").append("#{").append(handler.getField()).append(" } ") ;
+            sql.append(KConstants.TAB_SPACE12).append(handler.getColumnName()).append(" = ").append("#{").append(handler.getFieldName()).append(" } ") ;
             if(i != handlers.size()) {
                 sql.append(",") ;
             }
-            sql.append(XmlMapperHandler.NEW_LINE) ;
+            sql.append(KConstants.NEW_LINE) ;
         }
-        sql.append(XmlMapperHandler.TAB_SPACE8).append("where id = #{id }").append(XmlMapperHandler.NEW_LINE).append(XmlMapperHandler.TAB_SPACE4) ;
+        sql.append(KConstants.TAB_SPACE8).append("where id = #{id }").append(KConstants.NEW_LINE).append(KConstants.TAB_SPACE4) ;
         
         update.setText(sql.toString()); 
     }
@@ -118,11 +118,11 @@ public class MyBatisUtils {
         String entity = config.getEntityFullName() ;
         findById.addAttribute("resultType", entity) ;
         StringBuffer sql = new StringBuffer() ;
-        sql.append(XmlMapperHandler.NEW_LINE) ;
-        sql.append(XmlMapperHandler.TAB_SPACE8) ;
+        sql.append(KConstants.NEW_LINE) ;
+        sql.append(KConstants.TAB_SPACE8) ;
         sql.append("select <include refid=\"base_columns\" /> \n") ;
-        sql.append(XmlMapperHandler.TAB_SPACE8).append("from ").append(config.getTable()).append("\n") ;
-        sql.append(XmlMapperHandler.TAB_SPACE8).append("where  id = #{id } \n").append(XmlMapperHandler.TAB_SPACE4) ;
+        sql.append(KConstants.TAB_SPACE8).append("from ").append(config.getTable()).append("\n") ;
+        sql.append(KConstants.TAB_SPACE8).append("where  id = #{id } \n").append(KConstants.TAB_SPACE4) ;
         findById.setText(sql.toString()) ;
         
     }
@@ -137,11 +137,11 @@ public class MyBatisUtils {
         StringBuffer values = new StringBuffer("") ;
         for (int i = 0; i < columns.size(); i++) {
             ColumnHandler handler = columns.get(i) ;
-            values.append("#{"+handler.getField()+"}, " );
+            values.append("#{"+handler.getFieldName()+"}, " );
         }
-        String insertSql = XmlMapperHandler.NEW_LINE.concat(XmlMapperHandler.TAB_SPACE8).concat("insert into ")+config.getTable().concat(XmlMapperHandler.NEW_LINE)+  
+        String insertSql = KConstants.NEW_LINE.concat(KConstants.TAB_SPACE8).concat("insert into ")+config.getTable().concat(KConstants.NEW_LINE)+  
                 "            (<include refid=\"base_columns\" />)\r\n" + 
-                "        values \n".concat(XmlMapperHandler.TAB_SPACE12).concat("("+values.substring(0, values.length()-2)).concat(")").concat(XmlMapperHandler.NEW_LINE).concat(XmlMapperHandler.TAB_SPACE4) ;
+                "        values \n".concat(KConstants.TAB_SPACE12).concat("("+values.substring(0, values.length()-2)).concat(")").concat(KConstants.NEW_LINE).concat(KConstants.TAB_SPACE4) ;
         insert.setText(insertSql); 
     }
 
@@ -151,7 +151,7 @@ public class MyBatisUtils {
         sql.addAttribute("id", XmlMapperHandler.BASE_COLUMNS_ID) ;
         List<ColumnHandler> columns = getColumnInfo(config) ;
         String baseColumns = getColumns(columns) ;
-        baseColumns = XmlMapperHandler.NEW_LINE.concat(XmlMapperHandler.TAB_SPACE8).concat(baseColumns).concat(XmlMapperHandler.NEW_LINE).concat(XmlMapperHandler.TAB_SPACE4) ;
+        baseColumns = KConstants.NEW_LINE.concat(KConstants.TAB_SPACE8).concat(baseColumns).concat(KConstants.NEW_LINE).concat(KConstants.TAB_SPACE4) ;
         sql.addText(baseColumns) ;
         
     }
@@ -169,7 +169,7 @@ public class MyBatisUtils {
         File xml;
         try {
             String xmlName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, config.getTable()).concat("Mapper.xml") ;
-            String abs = projectDir + config.getRelativePath() + config.getNamespacePrefix().replace(".", "/") + "/" ;
+            String abs = projectDir + config.getRelativePathMapperXml() + config.getNamespacePrefix().replace(".", "/") + "/" ;
             File packages = new File( abs ) ;
             packages.mkdirs();
             xml = new File(packages, xmlName);
@@ -204,6 +204,54 @@ public class MyBatisUtils {
             e.printStackTrace();
         }
         return columns ;
+    }
+
+    public static void generateMapperDao(MyConfig config, String projectDir) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public static void generateMapperEntity(MyConfig config, String projectDir) {
+        File xml;
+        try {
+            String entity = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, config.getTable()).concat(".java") ;
+            String abs = projectDir + config.getRelativePathJava() + config.getNamespacePrefix().replace(".", "/") + "/bean/" ;
+            File packages = new File( abs ) ;
+            packages.mkdirs();
+            xml = new File(packages, entity);
+            if(xml.exists()) {
+                // throw new RuntimeException("") ;
+            } else {
+                xml.createNewFile() ;
+            }
+            FileOutputStream fileOutputStream = new FileOutputStream(xml) ;
+            String pkg = "package ".concat(config.getNamespacePrefix()).concat(".bean ; \n") ;
+            String cls = "public class " + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, config.getTable()) + "{ \n" ;
+            fileOutputStream.write(pkg.getBytes());
+            fileOutputStream.write(cls.getBytes());
+            
+            List<ColumnHandler> columns = getColumnInfo(config);
+            for (int i = 0; i < columns.size() ; i++) {
+                ColumnHandler handler = columns.get(i) ;
+                String field  = handler.getFieldDeclare() ;
+                fileOutputStream.write(field.getBytes()) ;
+            }
+            for (int i = 0; i < columns.size() ; i++) {
+                ColumnHandler handler = columns.get(i) ;
+                String setter  = handler.getFieldSetterMethod() ;
+                fileOutputStream.write(setter.getBytes()) ;
+                String getter = handler.getFieldGetterMethod() ;
+                fileOutputStream.write(getter.getBytes());
+            }
+            fileOutputStream.write("}".getBytes());
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e) ;
+        }
+        
+        
+        
     }
 
 }
