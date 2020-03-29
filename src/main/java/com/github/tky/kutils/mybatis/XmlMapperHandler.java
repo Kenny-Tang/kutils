@@ -4,8 +4,8 @@ public class XmlMapperHandler {
     
     /** 文档类型声明 */
     public static String DOC_TYPE_NAME = "mapper"; 
-    public static String DOC_TYPE_PUBLIC_ID = "PUBLIC";
-    public static String DOC_TYPE_SYSTEM_ID = "-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd" ;
+    public static String DOC_TYPE_PUBLIC_URI = "-//mybatis.org//DTD Mapper 3.0//EN" ;
+    public static String DOC_TYPE_SYSTEM_URI =  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" ;
     // 默认Mapper 后缀
     public static String MAPPER_SUFFIX = "Mapper" ;
     /** table columms sql */

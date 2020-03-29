@@ -25,14 +25,14 @@ public class MyBatisUtils {
 
     
     public static void generateMapperXml(MyConfig config, String projectDir)  {
-        File xml = createXmlFile(config, projectDir);
+    	File xml = createXmlFile(config, projectDir);
         writeMapperXml(xml, config);
     }
     
     private static void writeMapperXml(File file, MyConfig config) {
         try {
             Document document = DocumentHelper.createDocument() ;
-            document.addDocType(XmlMapperHandler.DOC_TYPE_NAME, XmlMapperHandler.DOC_TYPE_PUBLIC_ID, XmlMapperHandler.DOC_TYPE_SYSTEM_ID) ;
+            document.addDocType(XmlMapperHandler.DOC_TYPE_NAME, XmlMapperHandler.DOC_TYPE_PUBLIC_URI, XmlMapperHandler.DOC_TYPE_SYSTEM_URI) ;
             Element root = document.addElement("mapper") ;
             String namespace = config.getNamespacePrefix().concat(".mapper.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, config.getTable())).concat(XmlMapperHandler.MAPPER_SUFFIX) ;
             root.addAttribute("namespace", namespace);
@@ -80,6 +80,9 @@ public class MyBatisUtils {
         List<ColumnHandler> handlers = getColumnInfo(config) ;
         for (int i = 0; i < handlers.size(); i++) {
             ColumnHandler handler = handlers.get(i) ;
+            if(i==10) {
+            	break ;
+            }
             if(ColumnType.VARCHAR.code().equals(handler.getTypeName())) {
                 Element test = query.addElement("if") ;
                 String attr = handler.getFieldName().concat(" != null and ").concat(handler.getFieldName()).concat(" != ''");
@@ -93,6 +96,7 @@ public class MyBatisUtils {
     private static void createUpdateElement(Element root, MyConfig config) {
         root.addComment(" 更新操作 ");
         Element update = root.addElement("update") ;
+        update.addAttribute("id", "update") ;
         StringBuffer sql = new StringBuffer(KConstants.NEW_LINE) ;
         sql.append(KConstants.TAB_SPACE8) ;
         sql.append("update ").append(config.getTable()).append(KConstants.NEW_LINE) ;
@@ -100,7 +104,15 @@ public class MyBatisUtils {
         List<ColumnHandler> handlers = getColumnInfo(config) ;
         for (int i = 0; i < handlers.size(); i++) {
             ColumnHandler handler = handlers.get(i) ;
-            sql.append(KConstants.TAB_SPACE12).append(handler.getColumnName()).append(" = ").append("#{").append(handler.getFieldName()).append(" } ") ;
+            sql.append(KConstants.TAB_SPACE12).append(handler.getColumnName()) ;
+            if(handler.getColumnName().length() < 4 ) {
+            	sql.append("\t\t\t") ;
+            } else if(handler.getColumnName().length() < 8) {
+            	sql.append("\t\t") ;
+            } else {
+            	sql.append("\t");
+            }
+            sql.append("=").append("\t").append("#{").append(handler.getFieldName()).append(" } ") ;
             if(i != handlers.size()) {
                 sql.append(",") ;
             }
@@ -207,26 +219,128 @@ public class MyBatisUtils {
     }
 
     public static void generateMapperDao(MyConfig config, String projectDir) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public static void generateMapperEntity(MyConfig config, String projectDir) {
-        File xml;
+        File mapperFile ;
+        String mapper = config.getUpperCamelTable().concat("Mapper.java") ;
+        String abs = projectDir + config.getRelativePathJava() + config.getNamespacePrefix().replace(".", "/") + "/mapper/" ;
+        File packages = new File( abs ) ;
+        packages.mkdirs();
+        mapperFile = new File(packages, mapper);
         try {
-            String entity = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, config.getTable()).concat(".java") ;
+			if(mapperFile.exists()) {
+			    // throw new RuntimeException("") ;
+			} else {
+				mapperFile.createNewFile() ;
+			}
+			FileOutputStream fileOutputStream = new FileOutputStream(mapperFile) ;
+			String pkg = "package ".concat(config.getNamespacePrefix()).concat(".mapper ; \n\n") ;
+			fileOutputStream.write(pkg.getBytes());
+			String imports = "import java.util.List;\n" + 
+					"\n" + 
+					"import "+config.getNamespacePrefix().concat(".bean.")+config.getUpperCamelTable()+";\n" + 
+					"import "+config.getNamespacePrefix().concat(".bean.param.")+config.getUpperCamelTable()+"Query;\n" ;
+			fileOutputStream.write(imports.getBytes());
+			String cls = "public interface " + config.getUpperCamelTable() + "Mapper { \n" ;
+			fileOutputStream.write(cls.getBytes());
+			String s = "	public void create("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") ;\n" + 
+					"	\n" + 
+					"	public "+config.getUpperCamelTable()+" queryById() ;\n" + 
+					"	\n" + 
+					"	public int update("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") ;\n" + 
+					"	\n" + 
+					"	public List<"+config.getUpperCamelTable()+"> query("+config.getUpperCamelTable()+"Query query) ; \n\n" ;
+			fileOutputStream.write(s.getBytes());
+			fileOutputStream.write("}".getBytes());
+			fileOutputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e) ;
+		}
+    }
+    
+    public static void generateQueryParam(MyConfig config, String projectDir) {
+        File entityFile;
+        try {
+            String entity = config.getUpperCamelTable().concat("Query.java") ;
+            String abs = projectDir + config.getRelativePathJava() + config.getNamespacePrefix().replace(".", "/") + "/bean/param/" ;
+            File packages = new File( abs ) ;
+            packages.mkdirs();
+            entityFile = new File(packages, entity);
+            if(entityFile.exists()) {
+                // throw new RuntimeException("") ;
+            } else {
+                entityFile.createNewFile() ;
+            }
+            FileOutputStream fileOutputStream = new FileOutputStream(entityFile) ;
+            String pkg = "package ".concat(config.getNamespacePrefix()).concat(".bean.param ; \n") ;
+            String cls = "public class " + config.getUpperCamelTable() + "Query implements Serializable{ \n" ;
+            fileOutputStream.write(pkg.getBytes());
+            fileOutputStream.write("import java.io.Serializable;\n".getBytes());
+            fileOutputStream.write(cls.getBytes());
+            fileOutputStream.write("\tprivate static final long serialVersionUID = 1L;\n".getBytes());
+            List<ColumnHandler> handlers = getColumnInfo(config) ;
+            for (int i = 0; i < handlers.size(); i++) {
+                ColumnHandler handler = handlers.get(i) ;
+                if(i==10) {
+                	break ;
+                }
+                if(ColumnType.VARCHAR.code().equals(handler.getTypeName())) {
+                    String field  = handler.getFieldDeclare() ;
+                    fileOutputStream.write(field.getBytes()) ;
+                }
+            }
+            String pageInfo = "	private int pageNum = 1;\n" + 
+            "	private int pageSize = 10;\n" + 
+            "	\n" ;
+            fileOutputStream.write(pageInfo.getBytes());
+            String getPaeInfo = "	public int getPageNum() {\n" + 
+            "		return pageNum;\n" + 
+            "	}\n" + 
+            "	public void setPageNum(int pageNum) {\n" + 
+            "		this.pageNum = pageNum;\n" + 
+            "	}\n" + 
+            "	public int getPageSize() {\n" + 
+            "		return pageSize;\n" + 
+            "	}\n" + 
+            "	public void setPageSize(int pageSize) {\n" + 
+            "		this.pageSize = pageSize;\n" + 
+            "	}\n" ;
+            fileOutputStream.write(getPaeInfo.getBytes());
+
+            for (int i = 0; i < handlers.size(); i++) {
+            	ColumnHandler handler = handlers.get(i) ;
+                if(i==10) {
+                	break ;
+                }
+                if(ColumnType.VARCHAR.code().equals(handler.getTypeName())) {
+	                String setter  = handler.getFieldSetterMethod() ;
+	                fileOutputStream.write(setter.getBytes()) ;
+	                String getter = handler.getFieldGetterMethod() ;
+	                fileOutputStream.write(getter.getBytes());
+                }
+			}
+            fileOutputStream.write("}".getBytes());
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e) ;
+        }
+    }
+    public static void generateMapperEntity(MyConfig config, String projectDir) {
+        File entityFile;
+        try {
+            String entity = config.getUpperCamelTable().concat(".java") ;
             String abs = projectDir + config.getRelativePathJava() + config.getNamespacePrefix().replace(".", "/") + "/bean/" ;
             File packages = new File( abs ) ;
             packages.mkdirs();
-            xml = new File(packages, entity);
-            if(xml.exists()) {
+            entityFile = new File(packages, entity);
+            if(entityFile.exists()) {
                 // throw new RuntimeException("") ;
             } else {
-                xml.createNewFile() ;
+                entityFile.createNewFile() ;
             }
-            FileOutputStream fileOutputStream = new FileOutputStream(xml) ;
+            FileOutputStream fileOutputStream = new FileOutputStream(entityFile) ;
             String pkg = "package ".concat(config.getNamespacePrefix()).concat(".bean ; \n") ;
-            String cls = "public class " + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, config.getTable()) + "{ \n" ;
+            String cls = "public class " + config.getUpperCamelTable() + "{ \n" ;
             fileOutputStream.write(pkg.getBytes());
             fileOutputStream.write(cls.getBytes());
             
@@ -249,9 +363,7 @@ public class MyBatisUtils {
             e.printStackTrace();
             throw new RuntimeException(e) ;
         }
-        
-        
-        
     }
 
 }
+

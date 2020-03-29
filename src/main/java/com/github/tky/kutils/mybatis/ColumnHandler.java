@@ -7,7 +7,7 @@ import com.google.common.base.CaseFormat;
 
 public class ColumnHandler{
     
-    private String columnName ;
+	private String columnName ;
     private String typeName ;
     
     private String fieldType ;

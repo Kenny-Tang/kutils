@@ -28,6 +28,13 @@ public class MyConfig {
         this.namespacePrefix = namespacePrefix;
     }
 
+    public String getUpperCamelTable() {
+    	return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.getTable()) ;
+    }
+    public String getLowerCamelTable() {
+    	return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, this.getTable()) ;
+    }
+    
     public String getQueryName() {
         return namespacePrefix.concat(".bean.param.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, getTable())).concat("Query") ;
     }

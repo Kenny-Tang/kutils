@@ -14,19 +14,29 @@ import com.test.BaseTest;
 @Table(name = "test_table")
 public class MyBatisUtilsTest extends BaseTest {
 
+	MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://192.168.6.48:3306/customer", "customer", "haoshikisses", "customer", "com.github.tky") ;
+	String projectDir = "/Users/kenny/dev/workspace/kutils" ;
     @Test
     public void testGenerateMapper() {
-        MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://localhost:3306/kenny", "root", "123456", "order", "com.github.tky") ;
         List<ColumnHandler> columns = MyBatisUtils.getColumnInfo(config) ;
         assertTrue(columns.size() > 0);
-        MyBatisUtils.generateMapperXml(config, "E:/Kenny/GitHub/ares");
-        MyBatisUtils.generateMapperDao(config, "E:/Kenny/GitHub/ares");
-        
+        MyBatisUtils.generateMapperXml(config, projectDir);
     }
     
     @Test
     public void testGenerateDao() {
-        MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://localhost:3306/kenny", "root", "123456", "order", "com.github.tky") ;
-        MyBatisUtils.generateMapperEntity(config, "E:/Kenny/GitHub/ares");
+        MyBatisUtils.generateMapperDao(config, projectDir);
     }
+    
+    @Test
+    public void generateMapperEntity() {
+    	MyBatisUtils.generateMapperEntity(config, projectDir);
+    }
+    
+    @Test
+    public void generateQueryParam() {
+    	MyBatisUtils.generateQueryParam(config, projectDir);
+    }
+    
 }
+
