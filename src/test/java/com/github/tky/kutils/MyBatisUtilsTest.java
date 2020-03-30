@@ -15,7 +15,9 @@ import com.test.BaseTest;
 public class MyBatisUtilsTest extends BaseTest {
 
 	MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://192.168.6.48:3306/customer", "customer", "haoshikisses", "customer", "com.github.tky") ;
-	String projectDir = "/Users/kenny/dev/workspace/kutils" ;
+	// String projectDir = "/Users/kenny/dev/workspace/kutils" ;
+	String projectDir = "E:/Kenny/GitHub/ares" ;
+	
     @Test
     public void testGenerateMapper() {
         List<ColumnHandler> columns = MyBatisUtils.getColumnInfo(config) ;
@@ -26,6 +28,11 @@ public class MyBatisUtilsTest extends BaseTest {
     @Test
     public void testGenerateDao() {
         MyBatisUtils.generateMapperDao(config, projectDir);
+    }
+    
+    @Test
+    public void testGenerateService() {
+        MyBatisUtils.generateService(config, projectDir);
     }
     
     @Test

@@ -243,7 +243,7 @@ public class MyBatisUtils {
 			fileOutputStream.write(cls.getBytes());
 			String s = "	public void create("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") ;\n" + 
 					"	\n" + 
-					"	public "+config.getUpperCamelTable()+" queryById() ;\n" + 
+					"	public "+config.getUpperCamelTable()+" queryById(String id) ;\n" + 
 					"	\n" + 
 					"	public int update("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") ;\n" + 
 					"	\n" + 
@@ -357,6 +357,59 @@ public class MyBatisUtils {
                 String getter = handler.getFieldGetterMethod() ;
                 fileOutputStream.write(getter.getBytes());
             }
+            fileOutputStream.write("}".getBytes());
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e) ;
+        }
+    }
+
+    public static void generateService(MyConfig config, String projectDir) {
+        File mapperFile ;
+        String mapper = config.getUpperCamelTable().concat("Service.java") ;
+        String abs = projectDir + config.getRelativePathJava() + config.getNamespacePrefix().replace(".", "/") + "/service/" ;
+        File packages = new File( abs ) ;
+        packages.mkdirs();
+        mapperFile = new File(packages, mapper);
+        try {
+            if(mapperFile.exists()) {
+                // throw new RuntimeException("") ;
+            } else {
+                mapperFile.createNewFile() ;
+            }
+            FileOutputStream fileOutputStream = new FileOutputStream(mapperFile) ;
+            String pkg = "package ".concat(config.getNamespacePrefix()).concat(".service ; \n\n") ;
+            fileOutputStream.write(pkg.getBytes());
+            String imports = "import java.util.List;\n" + 
+                    "\n" + 
+                    "import "+config.getNamespacePrefix().concat(".bean.")+config.getUpperCamelTable()+";\n" + 
+                    "import "+config.getNamespacePrefix().concat(".bean.param.")+config.getUpperCamelTable()+"Query;\n" ;
+            fileOutputStream.write(imports.getBytes());
+            String cls = "public class " + config.getUpperCamelTable() + "Service { \n" ;
+            fileOutputStream.write(cls.getBytes());
+            String s = "    @Autowired\r\n" + 
+                    "    "+config.getSimpleMapperName()+" "+config.getDefaultRefDeclare(config.getSimpleMapperName())+" ;\r\n" + 
+                    "    public void create("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") {\r\n" + 
+                    "        "+config.getDefaultRefDeclare(config.getSimpleMapperName())+".create("+config.getLowerCamelTable()+");\r\n" + 
+                    "    }\r\n" + 
+                    "   \r\n" + 
+                    "   public "+config.getUpperCamelTable()+" queryById(String id) {\r\n" + 
+                    "       return "+config.getLowerCamelTable()+"Mapper.queryById(id) ; \r\n" + 
+                    "   }\r\n" + 
+                    "   \r\n" + 
+                    "   public int update("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") {\r\n" + 
+                    "       return "+config.getDefaultRefDeclare(config.getSimpleMapperName())+".update("+config.getLowerCamelTable()+") ;\r\n" + 
+                    "   }\r\n" + 
+                    "   \r\n" + 
+                    "   public PageInfo<"+config.getUpperCamelTable()+"> query("+config.getUpperCamelTable()+"Query query, boolean isPage) {\r\n" + 
+                    "       if(isPage) {\r\n" + 
+                    "           PageHelper.startPage(query.getPageNum(), query.getPageSize()) ;\r\n" + 
+                    "       }\r\n" + 
+                    "       List<Customer> list = "+config.getDefaultRefDeclare(config.getSimpleMapperName())+".query(query) ;\r\n" + 
+                    "       return new PageInfo<Customer>(list) ;\r\n" + 
+                    "   } ";
+            fileOutputStream.write(s.getBytes());
             fileOutputStream.write("}".getBytes());
             fileOutputStream.close();
         } catch (Exception e) {

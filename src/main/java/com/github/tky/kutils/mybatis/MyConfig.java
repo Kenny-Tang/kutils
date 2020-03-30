@@ -34,6 +34,17 @@ public class MyConfig {
     public String getLowerCamelTable() {
     	return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, this.getTable()) ;
     }
+    public String getSimpleMapperName() {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.getTable()) + "Mapper" ;
+    }
+    /**
+     * eg. EntityDao --> entityDao
+     * @param simpleClassName
+     * @return
+     */
+    public String getDefaultRefDeclare(String simpleClassName) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, simpleClassName);
+    }
     
     public String getQueryName() {
         return namespacePrefix.concat(".bean.param.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, getTable())).concat("Query") ;
