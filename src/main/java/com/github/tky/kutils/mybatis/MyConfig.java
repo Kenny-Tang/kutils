@@ -12,6 +12,8 @@ public class MyConfig {
     private String namespacePrefix ;
     private String relativePathMapperXml = "/src/main/resources/" ;
     private String relativePathJava= "/src/main/java/" ;
+    // 默认Mapper 后缀
+    public static String MAPPER_SUFFIX = "Mapper" ;
     @Override
     public String toString() {
         return "MyConfig [driver=" + driver + ", url=" + url + ", username=" + username + ", password=" + password
@@ -37,22 +39,34 @@ public class MyConfig {
     public String getSimpleMapperName() {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.getTable()) + "Mapper" ;
     }
+    public String getMapperName() {
+        String mapperName = this.namespacePrefix 
+                + ".mapper."
+                + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.getTable()) + "Mapper" ;
+        
+        return mapperName ;
+    }
+    public String getSimpleServiceName() {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.getTable()) + "Service" ;
+    }
+    public String getEntityName() {
+        return namespacePrefix.concat(".bean.entity.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)) ;
+    }
+    public String getBeanName() {
+        return namespacePrefix.concat(".bean.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)) ;
+    }
+    public String getQueryName() {
+        return namespacePrefix.concat(".bean.param.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, getTable())).concat("Query") ;
+    }
     /**
      * eg. EntityDao --> entityDao
      * @param simpleClassName
      * @return
      */
-    public String getDefaultRefDeclare(String simpleClassName) {
+    public String getLowerCamel(String simpleClassName) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, simpleClassName);
     }
     
-    public String getQueryName() {
-        return namespacePrefix.concat(".bean.param.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, getTable())).concat("Query") ;
-    }
-    public String getEntityFullName() {
-        
-        return namespacePrefix.concat(".entity.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)) ;
-    }
     
     public String getRelativePathJava() {
         return relativePathJava;

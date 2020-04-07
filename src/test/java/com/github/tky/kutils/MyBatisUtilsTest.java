@@ -18,6 +18,15 @@ public class MyBatisUtilsTest extends BaseTest {
 	// String projectDir = "/Users/kenny/dev/workspace/kutils" ;
 	String projectDir = "E:/Kenny/GitHub/ares" ;
 	
+	@Test
+	public void configTest() {
+	    System.err.println(config.getEntityName());
+	    System.err.println(config.getLowerCamelTable());
+	    System.err.println(config.getSimpleServiceName());
+	    System.err.println("getMapperName \t : " + config.getMapperName());
+	    System.err.println(config.getSimpleMapperName());
+	    System.err.println(config.getLowerCamel(config.getSimpleMapperName()));
+	}
     @Test
     public void testGenerateMapper() {
         List<ColumnHandler> columns = MyBatisUtils.getColumnInfo(config) ;

@@ -25,16 +25,12 @@ public class MyBatisUtils {
 
     
     public static void generateMapperXml(MyConfig config, String projectDir)  {
-    	File xml = createXmlFile(config, projectDir);
-        writeMapperXml(xml, config);
-    }
-    
-    private static void writeMapperXml(File file, MyConfig config) {
+    	File file = createXmlFile(config, projectDir);
         try {
             Document document = DocumentHelper.createDocument() ;
             document.addDocType(XmlMapperHandler.DOC_TYPE_NAME, XmlMapperHandler.DOC_TYPE_PUBLIC_URI, XmlMapperHandler.DOC_TYPE_SYSTEM_URI) ;
             Element root = document.addElement("mapper") ;
-            String namespace = config.getNamespacePrefix().concat(".mapper.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, config.getTable())).concat(XmlMapperHandler.MAPPER_SUFFIX) ;
+            String namespace = config.getMapperName() ;
             root.addAttribute("namespace", namespace);
            
             createBaseColumnsSql(root, config) ;
@@ -127,7 +123,7 @@ public class MyBatisUtils {
         root.addComment(" queryById ") ;
         Element findById = root.addElement("select") ;
         findById.addAttribute("id", "queryById") ;
-        String entity = config.getEntityFullName() ;
+        String entity = config.getEntityName() ;
         findById.addAttribute("resultType", entity) ;
         StringBuffer sql = new StringBuffer() ;
         sql.append(KConstants.NEW_LINE) ;
@@ -143,7 +139,7 @@ public class MyBatisUtils {
         root.addComment(" save entity ");
         Element insert = root.addElement("insert") ;
         insert.addAttribute("id", "create") ;
-        String entity = config.getEntityFullName() ;
+        String entity = config.getEntityName() ;
         insert.addAttribute("parameterType",entity);
         List<ColumnHandler> columns = getColumnInfo(config) ;
         StringBuffer values = new StringBuffer("") ;
@@ -152,7 +148,7 @@ public class MyBatisUtils {
             values.append("#{"+handler.getFieldName()+"}, " );
         }
         String insertSql = KConstants.NEW_LINE.concat(KConstants.TAB_SPACE8).concat("insert into ")+config.getTable().concat(KConstants.NEW_LINE)+  
-                "            (<include refid=\"base_columns\" />)\r\n" + 
+                "            (<include refid=\"base_columns\" />)\r\n".replace("t.", "") + 
                 "        values \n".concat(KConstants.TAB_SPACE12).concat("("+values.substring(0, values.length()-2)).concat(")").concat(KConstants.NEW_LINE).concat(KConstants.TAB_SPACE4) ;
         insert.setText(insertSql); 
     }
@@ -167,12 +163,18 @@ public class MyBatisUtils {
         sql.addText(baseColumns) ;
         
     }
-
     private static String getColumns(List<ColumnHandler> columns) {
+        return getColumns(columns, "") ; 
+    }
+    private static String getColumns(List<ColumnHandler> columns, String alias) {
         String baseColumns = "" ;
         for (int i = 0; i < columns.size(); i++) {
             ColumnHandler column = columns.get(i) ;
-            baseColumns += column.getColumnName() + ", " ;
+            if(alias != null && alias == "") {
+                baseColumns += alias +"."+ column.getColumnName() + ", " ;
+            }else {
+                baseColumns += alias +"."+ column.getColumnName() + ", " ;
+            }
         }
         return baseColumns.substring(0, baseColumns.length() - 2 );
     }
@@ -382,16 +384,20 @@ public class MyBatisUtils {
             String pkg = "package ".concat(config.getNamespacePrefix()).concat(".service ; \n\n") ;
             fileOutputStream.write(pkg.getBytes());
             String imports = "import java.util.List;\n" + 
-                    "\n" + 
+                    "import org.springframework.beans.factory.annotation.Autowired;\n" + 
                     "import "+config.getNamespacePrefix().concat(".bean.")+config.getUpperCamelTable()+";\n" + 
-                    "import "+config.getNamespacePrefix().concat(".bean.param.")+config.getUpperCamelTable()+"Query;\n" ;
+                    "import "+config.getNamespacePrefix().concat(".bean.param.")+config.getUpperCamelTable()+"Query;\n"
+                            + "import com.github.pagehelper.PageHelper;\r\n" + 
+                            "import com.github.pagehelper.PageInfo;\r\n" + 
+                            "import "+config.getNamespacePrefix().concat(".mapper.")+config.getUpperCamelTable()+"Mapper;" ;
+                
             fileOutputStream.write(imports.getBytes());
-            String cls = "public class " + config.getUpperCamelTable() + "Service { \n" ;
+            String cls = "\npublic class " + config.getUpperCamelTable() + "Service { \n" ;
             fileOutputStream.write(cls.getBytes());
             String s = "    @Autowired\r\n" + 
-                    "    "+config.getSimpleMapperName()+" "+config.getDefaultRefDeclare(config.getSimpleMapperName())+" ;\r\n" + 
+                    "    "+config.getSimpleMapperName()+" "+config.getLowerCamel(config.getSimpleMapperName())+" ;\r\n" + 
                     "    public void create("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") {\r\n" + 
-                    "        "+config.getDefaultRefDeclare(config.getSimpleMapperName())+".create("+config.getLowerCamelTable()+");\r\n" + 
+                    "        "+config.getLowerCamel(config.getSimpleMapperName())+".create("+config.getLowerCamelTable()+");\r\n" + 
                     "    }\r\n" + 
                     "   \r\n" + 
                     "   public "+config.getUpperCamelTable()+" queryById(String id) {\r\n" + 
@@ -399,16 +405,16 @@ public class MyBatisUtils {
                     "   }\r\n" + 
                     "   \r\n" + 
                     "   public int update("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") {\r\n" + 
-                    "       return "+config.getDefaultRefDeclare(config.getSimpleMapperName())+".update("+config.getLowerCamelTable()+") ;\r\n" + 
+                    "       return "+config.getLowerCamel(config.getSimpleMapperName())+".update("+config.getLowerCamelTable()+") ;\r\n" + 
                     "   }\r\n" + 
                     "   \r\n" + 
                     "   public PageInfo<"+config.getUpperCamelTable()+"> query("+config.getUpperCamelTable()+"Query query, boolean isPage) {\r\n" + 
                     "       if(isPage) {\r\n" + 
                     "           PageHelper.startPage(query.getPageNum(), query.getPageSize()) ;\r\n" + 
                     "       }\r\n" + 
-                    "       List<Customer> list = "+config.getDefaultRefDeclare(config.getSimpleMapperName())+".query(query) ;\r\n" + 
+                    "       List<Customer> list = "+config.getLowerCamel(config.getSimpleMapperName())+".query(query) ;\r\n" + 
                     "       return new PageInfo<Customer>(list) ;\r\n" + 
-                    "   } ";
+                    "   } \n";
             fileOutputStream.write(s.getBytes());
             fileOutputStream.write("}".getBytes());
             fileOutputStream.close();

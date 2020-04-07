@@ -6,8 +6,6 @@ public class XmlMapperHandler {
     public static String DOC_TYPE_NAME = "mapper"; 
     public static String DOC_TYPE_PUBLIC_URI = "-//mybatis.org//DTD Mapper 3.0//EN" ;
     public static String DOC_TYPE_SYSTEM_URI =  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" ;
-    // 默认Mapper 后缀
-    public static String MAPPER_SUFFIX = "Mapper" ;
     /** table columms sql */
     public static String BASE_COLUMNS_ID = "base_columns" ;
     
