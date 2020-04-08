@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.tky.kutils.str.InPropertyHandler;
 
 public class StringsTest {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass()) ;
     @Test
     public void splitAsInCondationListStr() {
         List<String> list  = new ArrayList<>();
@@ -33,5 +36,16 @@ public class StringsTest {
             }
         } ) ;
         assertEquals("'00','11','22','33'", instr);
+    }
+    
+    @Test
+    public void testCaseChange() {
+    	String string = "aaBBcc" ;
+    	logger.info("Strings.lowerCamelToUpperCamel()\t: {}\t-> {}", string, Strings.lowerCamelToUpperCamel(string));
+    	string = "AaBBcc" ;
+    	logger.info("Strings.uppperCamelToLowerCamel()\t: {}\t-> {}", string, Strings.uppperCamelToLowerCamel(string));
+    	string = "aa_bb_cc" ;
+    	logger.info("Strings.lowerUnderscoreToLowerCamel(): {}\t-> {}", string, Strings.lowerUnderscoreToLowerCamel(string));
+    	logger.info("Strings.lowerUnderscoreToUpperCamel(): {}\t-> {}", string, Strings.lowerUnderscoreToUpperCamel(string));
     }
 }

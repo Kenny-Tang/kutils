@@ -46,6 +46,13 @@ public class MyConfig {
         
         return mapperName ;
     }
+    public String getServiceName() {
+    	 String mapperName = this.namespacePrefix 
+                 + ".service."
+                 + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.getTable()) + "Service" ;
+         
+         return mapperName ;
+    }
     public String getSimpleServiceName() {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.getTable()) + "Service" ;
     }
@@ -55,22 +62,18 @@ public class MyConfig {
     public String getEntityName() {
         return namespacePrefix.concat(".bean.entity.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)) ;
     }
+    public String getSimpleBeanName() {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table).concat("Bean");
+    }
     public String getBeanName() {
-        return namespacePrefix.concat(".bean.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)) ;
+        return namespacePrefix.concat(".bean.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)).concat("Bean");
     }
     public String getQueryName() {
         return namespacePrefix.concat(".bean.param.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, getTable())).concat("Query") ;
     }
-    /**
-     * eg. EntityDao --> entityDao
-     * @param simpleClassName
-     * @return
-     */
-    public String getLowerCamel(String simpleClassName) {
-        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, simpleClassName);
+    public String getSimpleQueryName() {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, getTable()).concat("Query") ;
     }
-    
-    
     public String getRelativePathJava() {
         return relativePathJava;
     }

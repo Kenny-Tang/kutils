@@ -24,13 +24,17 @@ public class MyBatisUtilsTest extends BaseTest {
 	
 	@Test
 	public void testMyConfig() {
-	    logger.info("MyConfig.getSimpleMapperName()\t: {} ",config.getSimpleMapperName());
-	    logger.info("MyConfig.getMapperName()\t: {} ", config.getMapperName());
-	    logger.info("MyConfig.getSimpleEntityName()\t: {} ", config.getSimpleEntityName());
-	    logger.info("MyConfig.getEntityName()\t: {} ", config.getEntityName());
-	    logger.info("MyConfig.getLowerCamelTable()\t: {} ",config.getLowerCamelTable());
-	    logger.info("MyConfig.getSimpleServiceName()\t: {} ",config.getSimpleServiceName());
-	    logger.info("MyConfig.getMapperName()\t: {} ", config.getMapperName());
+		logger.info("MyConfig.getLowerCamelTable()\t: {} ",config.getLowerCamelTable());
+		logger.info("MyConfig.getSimpleEntityName()\t: {} ", config.getSimpleEntityName());
+		logger.info("MyConfig.getEntityName()\t: {} ", config.getEntityName());
+		logger.info("MyConfig.getSimpleBeanName()\t: {} ", config.getSimpleBeanName());
+		logger.info("MyConfig.getBeanName()\t\t: {} ", config.getBeanName());
+		logger.info("MyConfig.getSimpleQueryName()\t: {} ", config.getSimpleQueryName());
+		logger.info("MyConfig.getQueryName()\t\t: {} ", config.getQueryName());
+		logger.info("MyConfig.getSimpleMapperName()\t: {} ",config.getSimpleMapperName());
+		logger.info("MyConfig.getMapperName()\t: {} ", config.getMapperName());
+		logger.info("MyConfig.getSimpleServiceName()\t: {} ",config.getSimpleServiceName());
+		logger.info("MyConfig.getServiceName()\t: {} ",config.getServiceName());
 	}
     @Test
     public void testGenerateMapper() {

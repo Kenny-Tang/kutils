@@ -395,9 +395,9 @@ public class MyBatisUtils {
             String cls = "\npublic class " + config.getUpperCamelTable() + "Service { \n" ;
             fileOutputStream.write(cls.getBytes());
             String s = "    @Autowired\r\n" + 
-                    "    "+config.getSimpleMapperName()+" "+config.getLowerCamel(config.getSimpleMapperName())+" ;\r\n" + 
+                    "    "+config.getSimpleMapperName()+" "+Strings.uppperCamelToLowerCamel(config.getSimpleMapperName())+" ;\r\n" + 
                     "    public void create("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") {\r\n" + 
-                    "        "+config.getLowerCamel(config.getSimpleMapperName())+".create("+config.getLowerCamelTable()+");\r\n" + 
+                    "        "+Strings.uppperCamelToLowerCamel(config.getSimpleMapperName())+".create("+config.getLowerCamelTable()+");\r\n" + 
                     "    }\r\n" + 
                     "   \r\n" + 
                     "   public "+config.getUpperCamelTable()+" queryById(String id) {\r\n" + 
@@ -405,14 +405,14 @@ public class MyBatisUtils {
                     "   }\r\n" + 
                     "   \r\n" + 
                     "   public int update("+config.getUpperCamelTable()+" "+config.getLowerCamelTable()+") {\r\n" + 
-                    "       return "+config.getLowerCamel(config.getSimpleMapperName())+".update("+config.getLowerCamelTable()+") ;\r\n" + 
+                    "       return "+Strings.uppperCamelToLowerCamel(config.getSimpleMapperName())+".update("+config.getLowerCamelTable()+") ;\r\n" + 
                     "   }\r\n" + 
                     "   \r\n" + 
                     "   public PageInfo<"+config.getUpperCamelTable()+"> query("+config.getUpperCamelTable()+"Query query, boolean isPage) {\r\n" + 
                     "       if(isPage) {\r\n" + 
                     "           PageHelper.startPage(query.getPageNum(), query.getPageSize()) ;\r\n" + 
                     "       }\r\n" + 
-                    "       List<Customer> list = "+config.getLowerCamel(config.getSimpleMapperName())+".query(query) ;\r\n" + 
+                    "       List<Customer> list = "+Strings.uppperCamelToLowerCamel(config.getSimpleMapperName())+".query(query) ;\r\n" + 
                     "       return new PageInfo<Customer>(list) ;\r\n" + 
                     "   } \n";
             fileOutputStream.write(s.getBytes());
