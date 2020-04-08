@@ -49,6 +49,9 @@ public class MyConfig {
     public String getSimpleServiceName() {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.getTable()) + "Service" ;
     }
+    public String getSimpleEntityName() {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table) ;
+    }
     public String getEntityName() {
         return namespacePrefix.concat(".bean.entity.").concat(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table)) ;
     }

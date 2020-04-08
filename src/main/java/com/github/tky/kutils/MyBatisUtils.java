@@ -23,7 +23,7 @@ import com.google.common.base.CaseFormat;
 
 public class MyBatisUtils {
 
-    
+
     public static void generateMapperXml(MyConfig config, String projectDir)  {
     	File file = createXmlFile(config, projectDir);
         try {
