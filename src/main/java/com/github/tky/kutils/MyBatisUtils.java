@@ -18,7 +18,6 @@ import org.dom4j.io.XMLWriter;
 import com.github.tky.kutils.mybatis.ColumnHandler;
 import com.github.tky.kutils.mybatis.ColumnType;
 import com.github.tky.kutils.mybatis.MyConfig;
-import com.github.tky.kutils.mybatis.XmlMapperHandler;
 import com.google.common.base.CaseFormat;
 
 public class MyBatisUtils {
@@ -28,7 +27,7 @@ public class MyBatisUtils {
     	File file = createXmlFile(config, projectDir);
         try {
             Document document = DocumentHelper.createDocument() ;
-            document.addDocType(XmlMapperHandler.DOC_TYPE_NAME, XmlMapperHandler.DOC_TYPE_PUBLIC_URI, XmlMapperHandler.DOC_TYPE_SYSTEM_URI) ;
+            document.addDocType(KConstants.DOC_TYPE_NAME, KConstants.DOC_TYPE_PUBLIC_URI, KConstants.DOC_TYPE_SYSTEM_URI) ;
             Element root = document.addElement("mapper") ;
             String namespace = config.getMapperName() ;
             root.addAttribute("namespace", namespace);
@@ -156,7 +155,7 @@ public class MyBatisUtils {
     private static void createBaseColumnsSql(Element root, MyConfig config) {
         root.addComment(" 表字段 ") ;
         Element sql = root.addElement("sql") ;
-        sql.addAttribute("id", XmlMapperHandler.BASE_COLUMNS_ID) ;
+        sql.addAttribute("id", KConstants.BASE_COLUMNS_ID) ;
         List<ColumnHandler> columns = getColumnInfo(config) ;
         String baseColumns = getColumns(columns) ;
         baseColumns = KConstants.NEW_LINE.concat(KConstants.TAB_SPACE8).concat(baseColumns).concat(KConstants.NEW_LINE).concat(KConstants.TAB_SPACE4) ;
