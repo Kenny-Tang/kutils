@@ -44,7 +44,7 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
             if(handler != null) {
                 inItem = handler.inItem(inList.get(i)) ;
             }else {
-                inItem = inList.toString() ;
+                inItem = inList.get(i).toString() ;
             }
             if (!isBlank(inItem))
                 condation.append("'").append(inItem.trim()).append("',");

@@ -18,7 +18,7 @@ public class MyBatisUtilsTest extends BaseTest {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass()) ;
     
-	MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://192.168.6.48:3306/customer", "customer", "haoshikisses", "customer", "com.github.tky") ;
+	MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://127.0.0.1:3306/kenny", "root", "123456", "order", "com.github.tky") ;
 	// String projectDir = "/Users/kenny/dev/workspace/kutils" ;
 	String projectDir = "E:/Kenny/GitHub/ares" ;
 	
