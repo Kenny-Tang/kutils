@@ -8,7 +8,7 @@
     <version>0.0.3</version>
     <packaging>jar</packaging>
 
-    <description>kutils is could help you avoid repeat works on commom tools, such as DateUtils StringUtils.</description>
+    <description>kutils will help you avoid repeat works on commom tools, such as Dates Strings Numberics.</description>
     <name>Utils</name>
     <url>http://maven.apache.org</url>
 
