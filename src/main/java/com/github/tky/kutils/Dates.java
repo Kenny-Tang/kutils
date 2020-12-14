@@ -39,7 +39,7 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
             return new SimpleDateFormat(pattern).parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(dateStr+" do not matches "+pattern, e) ;
         }
     }
 
@@ -52,9 +52,6 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
      */
     public static String timeBetween(Date start, Date end)  {
         long between = (end.getTime() - start.getTime()) / 1000;// 除以1000是为了转换成秒
-        if (between < 0) {
-            System.out.println("开始时间大于结束时间！");
-        }
         // 小于一年
         if (between / (3600 * 24 * 365) <= 0) {
             long a = between / (3600 * 24 * 30);
