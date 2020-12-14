@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.tky.kutils.mybatis.ColumnHandler;
 import com.github.tky.kutils.mybatis.JdbcDriver;
+import com.github.tky.kutils.mybatis.MyBatisUtils;
 import com.github.tky.kutils.mybatis.MyConfig;
 import com.test.BaseTest;
 

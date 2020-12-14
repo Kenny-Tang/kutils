@@ -1,4 +1,4 @@
-package com.github.tky.kutils;
+package com.github.tky.kutils.mybatis;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,9 +15,8 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
-import com.github.tky.kutils.mybatis.ColumnHandler;
-import com.github.tky.kutils.mybatis.ColumnType;
-import com.github.tky.kutils.mybatis.MyConfig;
+import com.github.tky.kutils.KConstants;
+import com.github.tky.kutils.Strings;
 import com.google.common.base.CaseFormat;
 
 public class MyBatisUtils {
