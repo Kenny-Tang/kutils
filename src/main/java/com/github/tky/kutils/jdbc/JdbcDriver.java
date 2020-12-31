@@ -1,4 +1,4 @@
-package com.github.tky.kutils.mybatis;
+package com.github.tky.kutils.jdbc;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,8 @@ import java.util.Map;
  * @date 2020年3月16日 
  */
 public enum JdbcDriver {
-    MySQL("MySQL", "com.mysql.jdbc.Driver"), ORALCE("ORACLE", "oracle.jdbc.driver.OracleDriver");
+    MySQL("MySQL", "com.mysql.jdbc.Driver"), 
+    ORALCE("ORACLE", "oracle.jdbc.driver.OracleDriver");
 
     private JdbcDriver(String code, String driver) {
         this.code = code;

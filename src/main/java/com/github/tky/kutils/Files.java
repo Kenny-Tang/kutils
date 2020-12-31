@@ -16,6 +16,17 @@ public class Files {
     private Files() {}
     public static final int BSIZE = 1024 ;
     
+    public static void createFile(File file) {
+    	if(!file.exists()) {
+    		file.getParentFile().mkdirs() ;
+    		try {
+				file.createNewFile() ;
+			} catch (IOException e) {
+				throw new RuntimeException(e) ;
+			}
+    	}
+    }
+    
     /**
      * 
      * @param src   source file

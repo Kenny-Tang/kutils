@@ -30,7 +30,7 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
      */
     public static Date parseDate(String dateStr, String pattern) {
         if (dateStr == null || dateStr.equals("")) {
-            return null;
+            throw new RuntimeException("dateStr can not be empty.") ;
         }
         if (pattern == null || pattern.equals("")) {
             pattern = FMT_YYYY_MM_DD;
@@ -47,7 +47,6 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
      *  计算时间间隔（返回：*年*个月）
      *  @param start 开始时间
      *  @param end  结束时间
-     *  @throws ParseException 
      * 
      */
     public static String timeBetween(Date start, Date end)  {
