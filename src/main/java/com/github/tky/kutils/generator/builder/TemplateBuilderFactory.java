@@ -22,12 +22,11 @@ public class TemplateBuilderFactory{
 		ClassLoader classLoader = this.getClass().getClassLoader() ;
 		try {
 			properties.load(classLoader.getResourceAsStream("application.properties"));
-			System.out.println(properties);
 		} catch (IOException e) {
 			throw new RuntimeException("Resource application.properties not found!") ;
 		}
 		configuration.addProperties(properties) ;
-		URL root = classLoader.getResource("ftls");
+		URL root = classLoader.getResource(configuration.getTemplatesRoot());
 		if(root == null) {
 			throw new RuntimeException("template root dir not exists or is empty! default dir name is ftls.") ;
 		}

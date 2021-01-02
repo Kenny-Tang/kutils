@@ -6,6 +6,18 @@ public class DataSourceInfo {
     private String url ;
     private String username ;
     private String password ;
+    
+    
+	public DataSourceInfo() {
+		super();
+	}
+	public DataSourceInfo(String driver, String url, String username, String password) {
+		super();
+		this.driver = driver;
+		this.url = url;
+		this.username = username;
+		this.password = password;
+	}
 	public String getDriver() {
 		return driver;
 	}

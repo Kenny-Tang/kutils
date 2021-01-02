@@ -14,7 +14,7 @@ import com.github.tky.kutils.generator.loader.DataLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
-public class AbstractTemplateBuilder implements TemplateBuilder{
+public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 	
 	Configuration freemarkerConfiguration = new Configuration(Configuration.VERSION_2_3_23) ;
 	private GConfiguration configuration ;
@@ -34,8 +34,6 @@ public class AbstractTemplateBuilder implements TemplateBuilder{
 	@Override
 	public void generate(File file) {
 		
-		Object dataModel = dataLoader.load();
-		Template template;
 		try {
 			if(file.isDirectory()) {
 				File[] children = file.listFiles() ;
@@ -46,9 +44,10 @@ public class AbstractTemplateBuilder implements TemplateBuilder{
 				}
 			}
 			else {
+				Object dataModel = dataLoader.load();
 				String absPaht = file.getAbsolutePath();
 				String ftl = absPaht.substring(configuration.getTemplatesRoot().length()+1+absPaht.indexOf(configuration.getTemplatesRoot()));
-				template = freemarkerConfiguration.getTemplate(ftl);
+				Template template = freemarkerConfiguration.getTemplate(ftl);
 				File outFile = createOutputFile(ftl);
 				Writer out  = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
 				template.process(dataModel, out);
@@ -61,16 +60,31 @@ public class AbstractTemplateBuilder implements TemplateBuilder{
 
 	private File createOutputFile(String ftl) {
 		
+		if(!ftl.endsWith("ftl")) {
+			return null ;
+		}
+		
 		String templateFilename = ftl.substring(ftl.lastIndexOf(File.separator) + 1);
 		
-		String suffix = templateFilename.substring(templateFilename.indexOf("_") + 1, templateFilename.lastIndexOf(".")) + "."
-				+ templateFilename.substring(0, templateFilename.indexOf("_")).toLowerCase();
-		String generateFile = configuration.getUpperCamelEntityName() + suffix;
+		int suffixIndex = templateFilename.indexOf("_") ;
+		String suffix = templateFilename.substring(suffixIndex + 1, templateFilename.lastIndexOf(".")) ;
+		if(suffixIndex >= 0) {
+			suffix += "." + templateFilename.substring(0, suffixIndex).toLowerCase();
+		}
+		String generateFile = getOutputFilename() + suffix;
+		
 		File outFile = new File(configuration.getOutputDir() + ftl.replace(templateFilename, generateFile));
 		Files.createFile(outFile);
 		
 		return outFile;
 	}
+	
+	/**
+	 * get the output filename without suffix
+	 * @return
+	 * 		the filename without suffix
+	 */
+	public abstract String getOutputFilename() ;
 	
 	@Override
 	public void generate() {

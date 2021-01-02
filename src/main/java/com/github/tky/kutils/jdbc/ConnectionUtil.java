@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionUtil {
 
-	private static ThreadLocal<Connection> holder;
+	private static ThreadLocal<Connection> holder = new ThreadLocal<Connection>();
 	
 	public static Connection getConnection(DataSourceInfo dataSource) {
 		
@@ -20,7 +20,7 @@ public class ConnectionUtil {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("database connect failed.", e) ;
 		}
 		return holder.get() ;
 	}

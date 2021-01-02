@@ -4,20 +4,23 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import com.github.tky.kutils.generator.GConfiguration;
-import com.github.tky.kutils.jdbc.ColumnInfo;
 import com.github.tky.kutils.jdbc.ConnectionUtil;
-import com.github.tky.kutils.jdbc.TableInfo;
+import com.github.tky.kutils.type.ColumnInfo;
+import com.github.tky.kutils.type.TableInfo;
+import com.github.tky.kutils.type.TypeHandler;
 
 public class TableInfoLoader extends AbstractDataLoader{
 	
 	private String table ;
 	
+	public TableInfoLoader() {
+		super();
+	}
+
 	public TableInfoLoader(GConfiguration gConfiguration) {
 		setConfiguration(gConfiguration) ;
 	}
@@ -39,16 +42,21 @@ public class TableInfoLoader extends AbstractDataLoader{
 		ResultSet rs = null ;
 		try {
 			DatabaseMetaData metaData = connection.getMetaData() ;
-			rs = metaData.getColumns(null, "%", table, "%") ;
+			rs = metaData.getColumns(connection.getCatalog(), "%", table, "%") ;
 			TableInfo tableInfo = new TableInfo(table) ;
-			List<ColumnInfo> columns = new ArrayList<ColumnInfo>() ;
 			while(rs.next()) {
-			    columns.add(new ColumnInfo(rs.getString("COLUMN_NAME"))) ;
+				ColumnInfo columnInfo = new ColumnInfo(rs) ;
+				TypeHandler typeHandler = this.getConfiguration().getTypeHandlerRegistry().getTypeHandler(columnInfo.getJdbcType());
+				columnInfo.setJavaTypeSimpleName(typeHandler.getTypeSimpleName());
+				columnInfo.setJavaTypeFullName(typeHandler.getTypeFullName());
+			    tableInfo.addColumnInfo(columnInfo) ;
+			    tableInfo.addImport(typeHandler.getTypeFullName());
 			}
-			tableInfo.setColumns(columns);
 			rs.close();
+			System.out.println(tableInfo);
 			Properties properties = new Properties() ;
 			properties.put("table", tableInfo);
+			return properties ;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException("表信息抽取异常！", e) ;
@@ -59,8 +67,6 @@ public class TableInfoLoader extends AbstractDataLoader{
 				e.printStackTrace();
 			} 
 		}
-        
-		return null ;
 	}
 
 	public String getTable() {

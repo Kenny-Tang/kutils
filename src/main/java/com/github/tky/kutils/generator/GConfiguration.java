@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import com.github.tky.kutils.generator.loader.DataLoader;
 import com.github.tky.kutils.jdbc.DataSourceInfo;
+import com.github.tky.kutils.type.TypeHandlerRegistry;
 
 public class GConfiguration {
 	
@@ -14,8 +15,8 @@ public class GConfiguration {
 	private File directoryForTemplateLoadingFile ;
 	private DataLoader dataLoader ;
 	private String templatesRoot = "ftls" ;
-	private DataSourceInfo dataSourceInfo ;
 	Properties properties = new Properties();
+	TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry() ;
 	
 	public void addProperties(Properties data) {
 		if(data != null) {
@@ -24,12 +25,12 @@ public class GConfiguration {
 	}
 	
 	public DataSourceInfo getDataSourceInfo() {
-		return dataSourceInfo;
+		return new DataSourceInfo(properties.getProperty("k.generator.jdbc.driver"),
+				properties.getProperty("k.generator.jdbc.url"),
+				properties.getProperty("k.generator.jdbc.username"),
+				properties.getProperty("k.generator.jdbc.password")) ;
 	}
 
-	public void setDataSourceInfo(DataSourceInfo dataSourceInfo) {
-		this.dataSourceInfo = dataSourceInfo;
-	}
 
 	public DataLoader getDataLoader() {
 		return dataLoader;
@@ -70,6 +71,14 @@ public class GConfiguration {
 
 	public void setOutputDir(String outputDir) {
 		this.outputDir = outputDir;
+	}
+
+	public TypeHandlerRegistry getTypeHandlerRegistry() {
+		return typeHandlerRegistry;
+	}
+
+	public void setTypeHandlerRegistry(TypeHandlerRegistry typeHandlerRegistry) {
+		this.typeHandlerRegistry = typeHandlerRegistry;
 	}
 
 }
