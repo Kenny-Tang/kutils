@@ -2,7 +2,7 @@
 
 * [KUTILS](#kutils)
   * [TemplateBuilder](#templatebuilder)
-    * [模板示例](#模板示例)
+    * [模板示例](#generateTemplate)
   * [Dates](#dates)
   * [Excels](#excels)
   * [Files](#files)
@@ -16,7 +16,7 @@
 # KUTILS
 ## TemplateBuilder
 基于Freemarker 的代码生成器
-### 模板示例
+### <p id="generateTemplate">模板示例</p>
 ```
 package com.github.group.model;
 
