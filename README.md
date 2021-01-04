@@ -17,7 +17,7 @@
 ## TemplateBuilder
 基于Freemarker 的代码生成器
 ### <p id="generateTemplate">模板示例</p>
-```
+```freemarker
 package com.github.group.model;
 
 import java.io.Serializable;
