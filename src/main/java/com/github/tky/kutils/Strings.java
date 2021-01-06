@@ -10,7 +10,6 @@ import com.google.common.base.CaseFormat;
  */
 public class Strings extends org.apache.commons.lang3.StringUtils {
     
-    private Strings() {}
     /**
      * 将字符串调整成可以在 in 条件中使用的形式<br/>
      *  <pre>

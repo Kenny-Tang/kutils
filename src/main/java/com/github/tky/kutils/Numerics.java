@@ -5,8 +5,6 @@ import java.math.RoundingMode;
 
 public class Numerics {
 
-    private Numerics() {}
-
     /**
      * 提供精确的加法运算
      * @param oneAmount 被加数

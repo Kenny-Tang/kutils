@@ -9,7 +9,6 @@ import java.util.GregorianCalendar;
 
 public class Dates extends org.apache.commons.lang3.time.DateUtils {
 
-    private Dates() {} 
     public static final String FMT_YYYY_MM = "yyyy-MM";
     public static final String FMT_YYYYMM = "yyyyMM";
     public static final String FMT_YYYY_MM_DD = "yyyy-MM-dd";
@@ -21,10 +20,10 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
     public static final String FMT_YYYY_MM_DD_HH_MM_SS_S = "yyyy-MM-dd HH:mm:ss.S";
     
     /**
-          * 将一个字符串的日期按照指定的pattern转换成Date对象。
+     * 将一个字符串的日期按照指定的pattern转换成Date对象。
      * 
      * @param dateStr
-          *     字符串的日期
+     *     字符串的日期
      * @param pattern
      * @return Date
      */

@@ -24,7 +24,6 @@ import com.github.tky.kutils.excel.RowHandler;
 
 public class Excels {
     
-    private Excels() {} 
     private static final Logger logger = LoggerFactory.getLogger(Excels.class) ;
     private final static String CONTENTTYPE = "application/vnd.ms-excel";
 
