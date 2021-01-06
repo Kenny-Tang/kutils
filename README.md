@@ -2,7 +2,10 @@
 
 * [KUTILS](#kutils)
   * [TemplateBuilder](#templatebuilder)
-    * [模板示例](#generateTemplate)
+    * [模板](#generateTemplate)
+      * [模板命名](#generateTemplate)
+      * [模板内容](#generateTemplate)
+      * [使用](#TemplateBuilderUse)
   * [Dates](#dates)
   * [Excels](#excels)
   * [Files](#files)
@@ -17,13 +20,13 @@
 ## TemplateBuilder
 基于Freemarker 的代码生成器
 ### <p id="generateTemplate">模板</p>
-#### 模板文件命名
+#### 模板命名
 
   文件命名格式为 `文件类型名称+下划线+文件后缀+.ftl`
   
   eg. JAVA_Service.ftl 将被转化为 `XXXService.java`
   
-#### 模板文件内容
+#### 模板内容
 
 模板文件需要使用 `freemarker` 的语法规范进行编写，示例如下：
 
@@ -54,6 +57,18 @@ public class ${table.upperCamelTable } implements Serializable {
 	
 	</#list>
 }
+```
+#### <span id="TemplateBuilderUse">使用</span>
+一般我们可以用单元测试的形式在项目中使用, 这样生成的文件就可以直接在项目中使用了
+
+```java
+  @Test
+  public void testGenerate() {
+    TemplateBuilder builder = new TemplateBuilderFactory().build() ;
+    TableInfoLoader dataLoader = (TableInfoLoader) builder.getDataLoader() ;
+    dataLoader.setTable("user");
+    builder.generate();
+  }
 ```
 ## Dates
  日期处理工具

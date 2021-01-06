@@ -9,7 +9,7 @@ import com.github.tky.kutils.generator.loader.TableInfoLoader;
 public class TableTemplateBuilderTest {
 	
 	@Test
-	public void testGConfiguration() {
+	public void testGenerate() {
 		TemplateBuilder builder = new TemplateBuilderFactory().build() ;
 		TableInfoLoader dataLoader = (TableInfoLoader) builder.getDataLoader() ;
 		dataLoader.setTable("user");
