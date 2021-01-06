@@ -11,6 +11,7 @@ public class TypeHandlerRegistry {
 		super();
 		register(JdbcType.TINYINT, new IntegerTypeHandler());
 		register(JdbcType.SMALLINT, new IntegerTypeHandler());
+		register(JdbcType.INTEGER, new IntegerTypeHandler());
 		register(JdbcType.BIGINT, new LongTypeHandler());
 		register(JdbcType.VARCHAR, new StringTypeHandler());
 		register(JdbcType.TIMESTAMP, new DateTypeHandler());

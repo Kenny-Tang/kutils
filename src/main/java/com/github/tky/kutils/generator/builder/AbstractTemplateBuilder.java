@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Map;
 
 import com.github.tky.kutils.Files;
 import com.github.tky.kutils.generator.GConfiguration;
@@ -32,19 +33,18 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 	}
 	
 	@Override
-	public void generate(File file) {
+	public void generate(File file, Map<Object, Object> dataModel) {
 		
 		try {
 			if(file.isDirectory()) {
 				File[] children = file.listFiles() ;
 				if(children != null) {
 					for (File parent : children) {
-						generate(parent);
+						generate(parent, dataModel);
 					}
 				}
 			}
 			else {
-				Object dataModel = dataLoader.load();
 				String absPaht = file.getAbsolutePath();
 				String ftl = absPaht.substring(configuration.getTemplatesRoot().length()+1+absPaht.indexOf(configuration.getTemplatesRoot()));
 				Template template = freemarkerConfiguration.getTemplate(ftl);
@@ -88,7 +88,8 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 	
 	@Override
 	public void generate() {
-		generate(configuration.getDirectoryForTemplateLoadingFile()) ;
+		Map<Object, Object> dataModel = dataLoader.load();
+		generate(configuration.getDirectoryForTemplateLoadingFile(), dataModel) ;
 	}
 
 	public DataLoader getDataLoader() {
