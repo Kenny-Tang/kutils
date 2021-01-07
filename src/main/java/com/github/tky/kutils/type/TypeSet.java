@@ -1,8 +1,11 @@
 package com.github.tky.kutils.type;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Optional;
 
-public class TypeList extends ArrayList<String> {
+public class TypeSet extends HashSet<String> {
 
 	/**
 	 * 
@@ -28,6 +31,18 @@ public class TypeList extends ArrayList<String> {
 			return false ;
 		}
 		return super.add(e);
+	}
+	
+	@Override
+	public boolean addAll(Collection<? extends String> c) {
+		Optional.ofNullable(c).ifPresent(t -> {
+			Iterator<? extends String> iterator = t.iterator() ;
+			while (iterator.hasNext()) {
+				String type = iterator.next() ;
+				add(type) ;
+			}
+		});
+		return true;
 	}
 	
 }

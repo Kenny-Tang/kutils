@@ -10,7 +10,7 @@ public class TableInfo {
 	
 	private String tableName ;
 	private List<ColumnInfo> columns = new ArrayList<ColumnInfo>();
-	private List<String> imports = new TypeList();
+	private TypeSet imports = new TypeSet();
 	
 	public TableInfo() {
 		super();
@@ -35,11 +35,11 @@ public class TableInfo {
 		this.columns.add(columnInfo) ;
 	}
 
-	public List<String> getImports() {
+	public TypeSet getImports() {
 		return imports;
 	}
 
-	public void setImports(List<String> imports) {
+	public void setImports(TypeSet imports) {
 		this.imports = imports;
 	}
 
