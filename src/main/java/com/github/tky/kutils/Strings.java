@@ -34,7 +34,8 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
      * @param <T>
      * @param inList
      * @param handler
-     * @return
+     * @return string can append to a sql
+     * 	
      */
     public static  <T> String splitAsInCondation(java.util.List<T> inList, InPropertyHandler<T> handler) {
         StringBuffer condation = new StringBuffer("");
