@@ -1,12 +1,13 @@
 package com.github.tky.kutils.type;
 
 import java.lang.reflect.Type;
+import java.sql.ResultSet;
 
 public interface TypeHandler {
 
-	Type getType() ;
+	Type getType(ResultSet rs) ;
 	
-	String getTypeFullName() ;
+	String getTypeFullName(ResultSet rs) ;
 	
-	String getTypeSimpleName() ;
+	String getTypeSimpleName(ResultSet rs) ;
 }

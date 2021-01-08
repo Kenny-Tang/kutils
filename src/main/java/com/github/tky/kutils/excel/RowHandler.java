@@ -7,10 +7,10 @@ import com.github.tky.kutils.Dates;
 public abstract class RowHandler<T> {
     
     /**
-     * 获取对象中在指定列对应的值
-     * @param t 需要保存到Excel中的对象
-     * @param i 列对应的序列号
-     * @return
+     * get this target cell value
+     * @param t Column Object 
+     * @param i cell position
+     * @return cell value
      */
     public abstract Object handler(T t, int i) ;
 

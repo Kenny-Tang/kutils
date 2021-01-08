@@ -54,9 +54,9 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
     }
     
     /**
-     * 将大写开始的驼峰命名转换为小写开始的驼峰命名
+     * 将大写开始的驼峰命名转换为小写开始的驼峰命名字符串
      * @param string
-     * @return
+     * @return 小写开始的驼峰命名字符串
      */
     public static String uppperCamelToLowerCamel(String string) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, string);
@@ -65,7 +65,7 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
     /**
      * 将小写开始的驼峰命名转换为大写开始的驼峰命名
      * @param string
-     * @return
+     * @return 大写开始的驼峰命名字符串
      */
     public static String lowerCamelToUpperCamel(String string) {
         return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, string);
@@ -74,7 +74,7 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
     /**
      * 将下划线转换为小写开始驼峰命名
      * @param string
-     * @return
+     * @return 小写开始的驼峰命名字符串
      */
     public static String lowerUnderscoreToLowerCamel(String string) {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, string);
@@ -83,7 +83,7 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
     /**
      * 将下划线转换为大写开始驼峰命名
      * @param string
-     * @return
+     * @return 大写开始的驼峰命名字符串
      */
     public static String lowerUnderscoreToUpperCamel(String string) {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, string);

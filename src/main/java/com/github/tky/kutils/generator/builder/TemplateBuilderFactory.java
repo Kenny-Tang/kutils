@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Properties;
+import java.util.Set;
 
 import com.github.tky.kutils.generator.GConfiguration;
+import com.github.tky.kutils.type.JdbcType;
+import com.github.tky.kutils.type.TypeHandler;
+import com.google.common.graph.ElementOrder.Type;
 
 public class TemplateBuilderFactory{
 	
@@ -32,6 +36,7 @@ public class TemplateBuilderFactory{
 		}
 		File directoryForTemplateLoadingFile = new File(root.getFile()) ;
 		configuration.setDirectoryForTemplateLoadingFile(directoryForTemplateLoadingFile);
+		setTypeHandler();
 		TemplateBuilder builder = null;
 		try {
 			builder = builderClass.getConstructor(GConfiguration.class).newInstance(configuration);
@@ -40,6 +45,28 @@ public class TemplateBuilderFactory{
 		}
 		
 		return builder ;
+	}
+
+	private void setTypeHandler() {
+		Properties properties = configuration.getProperties() ;
+		Set<Object> keys = properties.keySet() ;
+		for (Object key : keys) {
+			if(key instanceof String) {
+				try {
+					String keyString = ((String) key);
+					String keyPrefix = keyString.substring(0, keyString.lastIndexOf('.'));
+					if ("k.generator.jdbc.typehandler".equals(keyPrefix)) {
+						JdbcType jdbcType = JdbcType.valueOf(keyString.substring(keyString.lastIndexOf('.')+1).toUpperCase());
+						String clazz = properties.getProperty(keyString);
+						TypeHandler typeHandler = (TypeHandler) Class.forName(clazz).newInstance();
+						configuration.registerTypeHandler(jdbcType, typeHandler);
+					} 
+				} catch (Exception e) {
+					e.printStackTrace(); 
+					throw new RuntimeException("jdbcType parse exception"+key, e) ;
+				}
+			}
+		}
 	}
 	
 }

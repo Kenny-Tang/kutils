@@ -47,10 +47,10 @@ public class TableInfoLoader extends AbstractDataLoader{
 			while(rs.next()) {
 				ColumnInfo columnInfo = new ColumnInfo(rs) ;
 				TypeHandler typeHandler = this.getConfiguration().getTypeHandlerRegistry().getTypeHandler(columnInfo.getJdbcType());
-				columnInfo.setJavaTypeSimpleName(typeHandler.getTypeSimpleName());
-				columnInfo.setJavaTypeFullName(typeHandler.getTypeFullName());
+				columnInfo.setJavaTypeSimpleName(typeHandler.getTypeSimpleName(rs));
+				columnInfo.setJavaTypeFullName(typeHandler.getTypeFullName(rs));
 			    tableInfo.addColumnInfo(columnInfo) ;
-			    tableInfo.addImport(typeHandler.getTypeFullName());
+			    tableInfo.addImport(typeHandler.getTypeFullName(rs));
 			}
 			rs.close();
 			System.out.println(tableInfo);

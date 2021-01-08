@@ -5,6 +5,8 @@ import java.util.Properties;
 
 import com.github.tky.kutils.generator.loader.DataLoader;
 import com.github.tky.kutils.jdbc.DataSourceInfo;
+import com.github.tky.kutils.type.JdbcType;
+import com.github.tky.kutils.type.TypeHandler;
 import com.github.tky.kutils.type.TypeHandlerRegistry;
 
 public class GConfiguration {
@@ -72,7 +74,11 @@ public class GConfiguration {
 	public void setOutputDir(String outputDir) {
 		this.outputDir = outputDir;
 	}
-
+	
+	public void registerTypeHandler(JdbcType jdbcType, TypeHandler typeHandler) {
+		typeHandlerRegistry.register(jdbcType, typeHandler);
+	}
+	
 	public TypeHandlerRegistry getTypeHandlerRegistry() {
 		return typeHandlerRegistry;
 	}

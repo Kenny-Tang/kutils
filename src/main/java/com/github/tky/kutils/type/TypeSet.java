@@ -15,12 +15,12 @@ public class TypeSet extends HashSet<String> {
 	@Override
 	public boolean add(String e) {
 		switch (e) {
-		case "long":
-		case "java.lang.Long":
-		case "int":
-		case "java.lang.Integer":
 		case "short":
 		case "java.lang.Short":
+		case "int":
+		case "java.lang.Integer":
+		case "long":
+		case "java.lang.Long":
 		case "float":
 		case "java.lang.Float":
 		case "double":
@@ -28,6 +28,8 @@ public class TypeSet extends HashSet<String> {
 		case "boolean":
 		case "java.lang.Boolean":
 		case "java.lang.String":
+		case "java.lang.Object":
+		case "java.lang.Exception":
 			return false ;
 		}
 		return super.add(e);
