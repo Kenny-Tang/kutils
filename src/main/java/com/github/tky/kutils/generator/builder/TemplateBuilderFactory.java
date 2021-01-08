@@ -10,7 +10,6 @@ import java.util.Set;
 import com.github.tky.kutils.generator.GConfiguration;
 import com.github.tky.kutils.type.JdbcType;
 import com.github.tky.kutils.type.TypeHandler;
-import com.google.common.graph.ElementOrder.Type;
 
 public class TemplateBuilderFactory{
 	
@@ -55,6 +54,7 @@ public class TemplateBuilderFactory{
 				try {
 					String keyString = ((String) key);
 					String keyPrefix = keyString.substring(0, keyString.lastIndexOf('.'));
+					
 					if ("k.generator.jdbc.typehandler".equals(keyPrefix)) {
 						JdbcType jdbcType = JdbcType.valueOf(keyString.substring(keyString.lastIndexOf('.')+1).toUpperCase());
 						String clazz = properties.getProperty(keyString);

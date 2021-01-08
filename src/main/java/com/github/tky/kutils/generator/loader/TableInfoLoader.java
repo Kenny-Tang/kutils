@@ -59,7 +59,7 @@ public class TableInfoLoader extends AbstractDataLoader{
 			return properties ;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException("表信息抽取异常！", e) ;
+			throw new RuntimeException("table info fetch exception！", e) ;
 		} finally {
 			try {
 				if(rs != null ) rs.close();
