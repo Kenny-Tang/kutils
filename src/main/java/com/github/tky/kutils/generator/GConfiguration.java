@@ -17,6 +17,7 @@ public class GConfiguration {
 	private File directoryForTemplateLoadingFile ;
 	private DataLoader dataLoader ;
 	private String templatesRoot = "ftls" ;
+	private boolean packageSub = false;
 	Properties properties = new Properties();
 	TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry() ;
 	
@@ -33,6 +34,13 @@ public class GConfiguration {
 				properties.getProperty("k.generator.jdbc.password")) ;
 	}
 
+	public boolean isPackageSub() {
+		return packageSub;
+	}
+
+	public void setPackageSub(boolean packageSub) {
+		this.packageSub = packageSub;
+	}
 
 	public DataLoader getDataLoader() {
 		return dataLoader;

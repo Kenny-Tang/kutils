@@ -36,6 +36,7 @@ public class TemplateBuilderFactory{
 		File directoryForTemplateLoadingFile = new File(root.getFile()) ;
 		configuration.setDirectoryForTemplateLoadingFile(directoryForTemplateLoadingFile);
 		setTypeHandler();
+		setPackageSub();
 		TemplateBuilder builder = null;
 		try {
 			builder = builderClass.getConstructor(GConfiguration.class).newInstance(configuration);
@@ -44,6 +45,13 @@ public class TemplateBuilderFactory{
 		}
 		
 		return builder ;
+	}
+
+	private void setPackageSub() {
+		Properties properties = configuration.getProperties() ;
+		String packageSub = properties.getProperty("k.generator.package.sub", "false") ;
+		boolean sub = Boolean.parseBoolean(packageSub) ;
+		configuration.setPackageSub(sub);
 	}
 
 	private void setTypeHandler() {

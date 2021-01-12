@@ -1,16 +1,22 @@
 package com.github.tky.kutils.generator.builder;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.Map;
 
 import com.github.tky.kutils.Files;
 import com.github.tky.kutils.generator.GConfiguration;
 import com.github.tky.kutils.generator.loader.DataLoader;
+import com.mysql.jdbc.Buffer;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -34,7 +40,7 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 	
 	@Override
 	public void generate(File file, Map<Object, Object> dataModel) {
-		
+		BufferedReader reader = null ;
 		try {
 			if(file.isDirectory()) {
 				File[] children = file.listFiles() ;
@@ -48,21 +54,35 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 				String absPaht = file.getAbsolutePath();
 				String ftl = absPaht.substring(configuration.getTemplatesRoot().length()+1+absPaht.indexOf(configuration.getTemplatesRoot()));
 				Template template = freemarkerConfiguration.getTemplate(ftl);
-				File outFile = createOutputFile(ftl);
+				reader = new BufferedReader(new FileReader(file)) ;
+				String pkg = reader.readLine() ;
+				reader.close();
+				File outFile = createOutputFile(ftl, pkg);
 				Writer out  = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
 				template.process(dataModel, out);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			try {
+				reader.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 	}
 
 	private File createOutputFile(String ftl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private File createOutputFile(String ftl, String pkg) {
 		
 		if(!ftl.endsWith("ftl")) {
 			return null ;
 		}
+
 		
 		String templateFilename = ftl.substring(ftl.lastIndexOf(File.separator) + 1);
 		
@@ -74,6 +94,7 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 		String generateFile = getOutputFilename() + suffix;
 		
 		File outFile = new File(configuration.getOutputDir() + ftl.replace(templateFilename, generateFile));
+		
 		Files.createFile(outFile);
 		
 		return outFile;
