@@ -1,4 +1,4 @@
-package com.github.group.controller;
+package com.github.group.consstroller;
 
 public class ${table.upperCamelTable }Controller {
 

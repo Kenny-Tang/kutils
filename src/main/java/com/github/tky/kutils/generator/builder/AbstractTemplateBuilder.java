@@ -3,20 +3,17 @@ package com.github.tky.kutils.generator.builder;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.StringBufferInputStream;
-import java.io.StringReader;
 import java.io.Writer;
 import java.util.Map;
 
 import com.github.tky.kutils.Files;
+import com.github.tky.kutils.Strings;
 import com.github.tky.kutils.generator.GConfiguration;
 import com.github.tky.kutils.generator.loader.DataLoader;
-import com.mysql.jdbc.Buffer;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -55,7 +52,7 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 				String ftl = absPaht.substring(configuration.getTemplatesRoot().length()+1+absPaht.indexOf(configuration.getTemplatesRoot()));
 				Template template = freemarkerConfiguration.getTemplate(ftl);
 				reader = new BufferedReader(new FileReader(file)) ;
-				String pkg = reader.readLine() ;
+				String pkg = reader.readLine().replace("package", "").replace(" ", "").replace(".", File.separator).replace(";", File.separator) ;
 				reader.close();
 				File outFile = createOutputFile(ftl, pkg);
 				Writer out  = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
@@ -72,17 +69,11 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 		
 	}
 
-	private File createOutputFile(String ftl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private File createOutputFile(String ftl, String pkg) {
 		
 		if(!ftl.endsWith("ftl")) {
 			return null ;
 		}
-
 		
 		String templateFilename = ftl.substring(ftl.lastIndexOf(File.separator) + 1);
 		
@@ -93,8 +84,12 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 		}
 		String generateFile = getOutputFilename() + suffix;
 		
-		File outFile = new File(configuration.getOutputDir() + ftl.replace(templateFilename, generateFile));
-		
+		File outFile = null ;
+		if(configuration.isPackageSub() && Strings.isNotEmpty(pkg)) {
+			outFile = new File(configuration.getOutputDir()+pkg+generateFile);
+		} else {
+			outFile = new File(configuration.getOutputDir() + ftl.replace(templateFilename, generateFile));
+		}
 		Files.createFile(outFile);
 		
 		return outFile;

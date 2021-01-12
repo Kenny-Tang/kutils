@@ -1,5 +1,6 @@
 package com.github.tky.kutils.generator.builder;
 
+import com.github.tky.kutils.Strings;
 import com.github.tky.kutils.generator.GConfiguration;
 import com.github.tky.kutils.generator.loader.TableInfoLoader;
 
@@ -15,7 +16,8 @@ public class TableTemplateBuilder extends AbstractTemplateBuilder{
 	
 	@Override
 	public String getOutputFilename() {
-		return tableInfoLoader.getAlias();
+		if(tableInfoLoader.getAlias() != null) return tableInfoLoader.getAlias() ;
+		return Strings.lowerUnderscoreToUpperCamel(tableInfoLoader.getTable()) ;
 	}
 
 	public TableTemplateBuilder(GConfiguration configuration, String tableName) throws Exception {
