@@ -11,8 +11,6 @@ import com.github.tky.kutils.type.TypeHandlerRegistry;
 
 public class GConfiguration {
 	
-	private String DEFAULT_OUTPUT_PATH = "src/main/java/" ;
-	
 	private String outputDir ;
 	private File directoryForTemplateLoadingFile ;
 	private DataLoader dataLoader ;
@@ -75,7 +73,6 @@ public class GConfiguration {
 	}
 
 	public String getOutputDir() {
-		if(outputDir == null) { return DEFAULT_OUTPUT_PATH ;}
 		return outputDir;
 	}
 

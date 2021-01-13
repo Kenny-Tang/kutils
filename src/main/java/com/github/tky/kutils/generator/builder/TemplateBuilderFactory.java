@@ -37,6 +37,8 @@ public class TemplateBuilderFactory{
 		configuration.setDirectoryForTemplateLoadingFile(directoryForTemplateLoadingFile);
 		setTypeHandler();
 		setPackageSub();
+		setOutputDir() ;
+		
 		TemplateBuilder builder = null;
 		try {
 			builder = builderClass.getConstructor(GConfiguration.class).newInstance(configuration);
@@ -45,6 +47,12 @@ public class TemplateBuilderFactory{
 		}
 		
 		return builder ;
+	}
+
+	private void setOutputDir() {
+		Properties properties = configuration.getProperties() ;
+		String outputDir = properties.getProperty("k.generator.output.dir", "src/main/java/") ;
+		configuration.setOutputDir(outputDir);
 	}
 
 	private void setPackageSub() {
