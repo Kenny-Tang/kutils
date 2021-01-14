@@ -58,6 +58,10 @@ public class TableInfo {
 		return Strings.lowerUnderscoreToUpperCamel(tableName) ;
 	}
 	
+	public String getLowerCamelTable () {
+		return Strings.lowerUnderscoreToLowerCamel(tableName) ;
+	}
+	
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}

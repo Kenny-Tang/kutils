@@ -29,6 +29,7 @@ public class DefaultTypeHandler implements TypeHandler{
 		}
 		switch (dataType) {
 		case Types.TINYINT:
+		case Types.SMALLINT:
 		case Types.INTEGER:
 			return Integer.class ;
 		case Types.BIGINT:
@@ -36,11 +37,18 @@ public class DefaultTypeHandler implements TypeHandler{
 		case Types.NUMERIC:
 		case Types.DECIMAL:
 			return BigDecimal.class ;
+		case Types.FLOAT :
+		case Types.DOUBLE :
+			return Double.class ;
 		case Types.DATE:
 		case Types.TIMESTAMP:
 			return Date.class ;
 		case Types.VARCHAR:
+		case Types.NVARCHAR :
+		case Types.LONGNVARCHAR :
 			return String.class ;
+		case Types.BOOLEAN :
+			return Boolean.class ;
 		}
 		return null;
 	}

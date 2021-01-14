@@ -61,7 +61,9 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
-				reader.close();
+				if(reader != null) {
+					reader.close();
+				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
