@@ -28,7 +28,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.apache.poi.version>3.10-FINAL</org.apache.poi.version>
+        <org.apache.poi.version>4.1.2</org.apache.poi.version>
     </properties>
 
     <distributionManagement>
