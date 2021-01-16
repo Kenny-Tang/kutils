@@ -48,8 +48,9 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder{
 				}
 			}
 			else {
-				String absPaht = file.getAbsolutePath();
-				String ftl = absPaht.substring(configuration.getTemplatesRoot().length()+1+absPaht.indexOf(configuration.getTemplatesRoot()));
+				String absPath = file.getAbsolutePath();
+				if(!absPath.endsWith(".ftl")) {return;}
+				String ftl = absPath.substring(configuration.getTemplatesRoot().length()+1+absPath.indexOf(configuration.getTemplatesRoot()));
 				Template template = freemarkerConfiguration.getTemplate(ftl);
 				reader = new BufferedReader(new FileReader(file)) ;
 				String pkg = reader.readLine().replace("package", "").replace(" ", "").replace(".", File.separator).replace(";", File.separator) ;
