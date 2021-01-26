@@ -9,8 +9,9 @@ public class TableInfo {
 	
 	
 	private String tableName ;
+	private String alias ;
 	private List<ColumnInfo> columns = new ArrayList<ColumnInfo>();
-	private List<String> imports = new TypeList();
+	private TypeSet imports = new TypeSet();
 	
 	public TableInfo() {
 		super();
@@ -27,6 +28,12 @@ public class TableInfo {
 		this.tableName = tableName;
 	}
 	
+	public TableInfo(String tableName, String alias) {
+		super();
+		this.tableName = tableName;
+		this.alias = alias ;
+	}
+	
 	public void addImport(String importType) {
 		this.imports.add(importType) ;
 	}
@@ -35,11 +42,11 @@ public class TableInfo {
 		this.columns.add(columnInfo) ;
 	}
 
-	public List<String> getImports() {
+	public TypeSet getImports() {
 		return imports;
 	}
 
-	public void setImports(List<String> imports) {
+	public void setImports(TypeSet imports) {
 		this.imports = imports;
 	}
 
@@ -51,10 +58,23 @@ public class TableInfo {
 		return Strings.lowerUnderscoreToUpperCamel(tableName) ;
 	}
 	
+	public String getLowerCamelTable () {
+		return Strings.lowerUnderscoreToLowerCamel(tableName) ;
+	}
+	
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
-	public List<ColumnInfo> getColumns() {
+	
+	public String getAlias() {
+      return alias;
+    }
+  
+    public void setAlias(String alias) {
+      this.alias = alias;
+    }
+  
+    public List<ColumnInfo> getColumns() {
 		return columns;
 	}
 	public void setColumns(List<ColumnInfo> columns) {

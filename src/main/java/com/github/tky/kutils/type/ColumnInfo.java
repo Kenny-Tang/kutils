@@ -13,6 +13,7 @@ public class ColumnInfo {
 	private String javaTypeSimpleName ;
 	private String javaTypeFullName ;
 	private JdbcType jdbcType ;
+	
 	public ColumnInfo(ResultSet rs) {
 		try {
 			columnName = rs.getString("COLUMN_NAME") ;
@@ -23,6 +24,7 @@ public class ColumnInfo {
 			e.printStackTrace();
 		}
 	}
+	
 	public ColumnInfo(String columnName) {
 		super();
 		this.columnName = columnName;

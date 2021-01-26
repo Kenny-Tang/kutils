@@ -5,16 +5,17 @@ import java.util.Properties;
 
 import com.github.tky.kutils.generator.loader.DataLoader;
 import com.github.tky.kutils.jdbc.DataSourceInfo;
+import com.github.tky.kutils.type.JdbcType;
+import com.github.tky.kutils.type.TypeHandler;
 import com.github.tky.kutils.type.TypeHandlerRegistry;
 
 public class GConfiguration {
-	
-	private String DEFAULT_OUTPUT_PATH = "src/main/java/" ;
 	
 	private String outputDir ;
 	private File directoryForTemplateLoadingFile ;
 	private DataLoader dataLoader ;
 	private String templatesRoot = "ftls" ;
+	private boolean packageSub = false;
 	Properties properties = new Properties();
 	TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry() ;
 	
@@ -31,6 +32,13 @@ public class GConfiguration {
 				properties.getProperty("k.generator.jdbc.password")) ;
 	}
 
+	public boolean isPackageSub() {
+		return packageSub;
+	}
+
+	public void setPackageSub(boolean packageSub) {
+		this.packageSub = packageSub;
+	}
 
 	public DataLoader getDataLoader() {
 		return dataLoader;
@@ -65,14 +73,17 @@ public class GConfiguration {
 	}
 
 	public String getOutputDir() {
-		if(outputDir == null) { return DEFAULT_OUTPUT_PATH ;}
 		return outputDir;
 	}
 
 	public void setOutputDir(String outputDir) {
 		this.outputDir = outputDir;
 	}
-
+	
+	public void registerTypeHandler(JdbcType jdbcType, TypeHandler typeHandler) {
+		typeHandlerRegistry.register(jdbcType, typeHandler);
+	}
+	
 	public TypeHandlerRegistry getTypeHandlerRegistry() {
 		return typeHandlerRegistry;
 	}

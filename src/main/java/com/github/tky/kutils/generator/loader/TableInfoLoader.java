@@ -16,7 +16,7 @@ import com.github.tky.kutils.type.TypeHandler;
 public class TableInfoLoader extends AbstractDataLoader{
 	
 	private String table ;
-	
+	private String alias ;
 	public TableInfoLoader() {
 		super();
 	}
@@ -43,14 +43,14 @@ public class TableInfoLoader extends AbstractDataLoader{
 		try {
 			DatabaseMetaData metaData = connection.getMetaData() ;
 			rs = metaData.getColumns(connection.getCatalog(), "%", table, "%") ;
-			TableInfo tableInfo = new TableInfo(table) ;
+			TableInfo tableInfo = new TableInfo(table, alias) ;
 			while(rs.next()) {
 				ColumnInfo columnInfo = new ColumnInfo(rs) ;
 				TypeHandler typeHandler = this.getConfiguration().getTypeHandlerRegistry().getTypeHandler(columnInfo.getJdbcType());
-				columnInfo.setJavaTypeSimpleName(typeHandler.getTypeSimpleName());
-				columnInfo.setJavaTypeFullName(typeHandler.getTypeFullName());
+				columnInfo.setJavaTypeSimpleName(typeHandler.getTypeSimpleName(rs));
+				columnInfo.setJavaTypeFullName(typeHandler.getTypeFullName(rs));
 			    tableInfo.addColumnInfo(columnInfo) ;
-			    tableInfo.addImport(typeHandler.getTypeFullName());
+			    tableInfo.addImport(typeHandler.getTypeFullName(rs));
 			}
 			rs.close();
 			System.out.println(tableInfo);
@@ -59,7 +59,7 @@ public class TableInfoLoader extends AbstractDataLoader{
 			return properties ;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException("表信息抽取异常！", e) ;
+			throw new RuntimeException("table info fetch exception！", e) ;
 		} finally {
 			try {
 				if(rs != null ) rs.close();
@@ -68,14 +68,26 @@ public class TableInfoLoader extends AbstractDataLoader{
 			} 
 		}
 	}
-
-	public String getTable() {
-		return table;
-	}
-
+	
 	public void setTable(String table) {
 		this.table = table;
 	}
-	
+
+	public void setTable(String table, String alias) {
+		this.table = table;
+		this.alias = alias ;
+	}
+
+    public String getAlias() {
+      return alias;
+    }
+  
+    public void setAlias(String alias) {
+      this.alias = alias;
+    }
+  
+    public String getTable() {
+      return table;
+    }
 	
 }

@@ -16,7 +16,8 @@ public class TableTemplateBuilder extends AbstractTemplateBuilder{
 	
 	@Override
 	public String getOutputFilename() {
-		return Strings.lowerUnderscoreToUpperCamel(tableInfoLoader.getTable());
+		if(tableInfoLoader.getAlias() != null) return tableInfoLoader.getAlias() ;
+		return Strings.lowerUnderscoreToUpperCamel(tableInfoLoader.getTable()) ;
 	}
 
 	public TableTemplateBuilder(GConfiguration configuration, String tableName) throws Exception {

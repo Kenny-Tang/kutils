@@ -5,7 +5,7 @@
 
     <groupId>com.github.kenny-tang</groupId>
     <artifactId>kutils</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <description>kutils will help you avoid repeat works on commom tools, such as Dates Strings Numberics.</description>
@@ -28,7 +28,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.apache.poi.version>3.10-FINAL</org.apache.poi.version>
+        <org.apache.poi.version>4.1.2</org.apache.poi.version>
     </properties>
 
     <distributionManagement>
