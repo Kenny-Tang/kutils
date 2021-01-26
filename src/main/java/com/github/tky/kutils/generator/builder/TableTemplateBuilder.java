@@ -4,20 +4,21 @@ import com.github.tky.kutils.Strings;
 import com.github.tky.kutils.generator.GConfiguration;
 import com.github.tky.kutils.generator.loader.TableInfoLoader;
 
-public class TableTemplateBuilder extends AbstractTemplateBuilder{
-	
-	private TableInfoLoader tableInfoLoader ;
-	
+public class TableTemplateBuilder extends AbstractTemplateBuilder {
+
+	private TableInfoLoader tableInfoLoader;
+
 	public TableTemplateBuilder(GConfiguration configuration) {
 		super(configuration);
-		this.dataLoader = new TableInfoLoader(configuration); 
-		this.tableInfoLoader = (TableInfoLoader) this.dataLoader ; 
+		this.dataLoader = new TableInfoLoader(configuration);
+		this.tableInfoLoader = (TableInfoLoader) this.dataLoader;
 	}
-	
+
 	@Override
 	public String getOutputFilename() {
-		if(tableInfoLoader.getAlias() != null) return tableInfoLoader.getAlias() ;
-		return Strings.lowerUnderscoreToUpperCamel(tableInfoLoader.getTable()) ;
+		if (tableInfoLoader.getAlias() != null)
+			return tableInfoLoader.getAlias();
+		return Strings.lowerUnderscoreToUpperCamel(tableInfoLoader.getTable());
 	}
 
 	public TableTemplateBuilder(GConfiguration configuration, String tableName) throws Exception {
@@ -33,5 +34,4 @@ public class TableTemplateBuilder extends AbstractTemplateBuilder{
 		this.tableInfoLoader = tableInfoLoader;
 	}
 
-	
 }

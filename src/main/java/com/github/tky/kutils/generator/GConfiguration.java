@@ -9,27 +9,37 @@ import com.github.tky.kutils.type.JdbcType;
 import com.github.tky.kutils.type.TypeHandler;
 import com.github.tky.kutils.type.TypeHandlerRegistry;
 
+import freemarker.template.Configuration;
+import freemarker.template.Version;
+
 public class GConfiguration {
-	
-	private String outputDir ;
-	private File directoryForTemplateLoadingFile ;
-	private DataLoader dataLoader ;
-	private String templatesRoot = "ftls" ;
+
+	private Version freemarkerVersion = Configuration.VERSION_2_3_23;
+	private String outputDir;
+	private File directoryForTemplateLoadingFile;
+	private DataLoader dataLoader;
+	private String templatesRoot = "ftls";
 	private boolean packageSub = false;
 	Properties properties = new Properties();
-	TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry() ;
-	
+	TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
+
 	public void addProperties(Properties data) {
-		if(data != null) {
+		if (data != null) {
 			this.properties.putAll(data);
 		}
 	}
-	
+
 	public DataSourceInfo getDataSourceInfo() {
-		return new DataSourceInfo(properties.getProperty("k.generator.jdbc.driver"),
-				properties.getProperty("k.generator.jdbc.url"),
-				properties.getProperty("k.generator.jdbc.username"),
-				properties.getProperty("k.generator.jdbc.password")) ;
+		return new DataSourceInfo(properties.getProperty("k.generator.jdbc.driver"), properties.getProperty("k.generator.jdbc.url"), properties.getProperty("k.generator.jdbc.username"),
+				properties.getProperty("k.generator.jdbc.password"));
+	}
+
+	public Version getFreemarkerVersion() {
+		return freemarkerVersion;
+	}
+
+	public void setFreemarkerVersion(Version freemarkerVersion) {
+		this.freemarkerVersion = freemarkerVersion;
 	}
 
 	public boolean isPackageSub() {
@@ -47,7 +57,7 @@ public class GConfiguration {
 	public void setDataLoader(DataLoader dataLoader) {
 		this.dataLoader = dataLoader;
 	}
-	
+
 	public Properties getProperties() {
 		return properties;
 	}
@@ -59,15 +69,19 @@ public class GConfiguration {
 	public File getDirectoryForTemplateLoadingFile() {
 		return directoryForTemplateLoadingFile;
 	}
+
 	public void setDirectoryForTemplateLoadingFile(File directoryForTemplateLoadingFile) {
 		this.directoryForTemplateLoadingFile = directoryForTemplateLoadingFile;
 	}
+
 	public String getTemplatesRoot() {
 		return templatesRoot;
 	}
+
 	public void setTemplatesRoot(String templatesRoot) {
 		this.templatesRoot = templatesRoot;
 	}
+
 	public String getUpperCamelEntityName() {
 		return "MarketingPosInfo";
 	}
@@ -79,11 +93,11 @@ public class GConfiguration {
 	public void setOutputDir(String outputDir) {
 		this.outputDir = outputDir;
 	}
-	
+
 	public void registerTypeHandler(JdbcType jdbcType, TypeHandler typeHandler) {
 		typeHandlerRegistry.register(jdbcType, typeHandler);
 	}
-	
+
 	public TypeHandlerRegistry getTypeHandlerRegistry() {
 		return typeHandlerRegistry;
 	}
