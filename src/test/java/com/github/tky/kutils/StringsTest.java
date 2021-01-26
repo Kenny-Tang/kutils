@@ -41,11 +41,14 @@ public class StringsTest {
     @Test
     public void testCaseChange() {
     	String string = "aaBBcc" ;
-    	logger.info("Strings.lowerCamelToUpperCamel()\t: {}\t-> {}", string, Strings.lowerCamelToUpperCamel(string));
+    	assertEquals("AaBBcc", Strings.lowerCamelToUpperCamel(string) );
     	string = "AaBBcc" ;
-    	logger.info("Strings.uppperCamelToLowerCamel()\t: {}\t-> {}", string, Strings.uppperCamelToLowerCamel(string));
+        assertEquals("aaBBcc", Strings.uppperCamelToLowerCamel( string ) );
     	string = "aa_bb_cc" ;
-    	logger.info("Strings.lowerUnderscoreToLowerCamel(): {}\t-> {}", string, Strings.lowerUnderscoreToLowerCamel(string));
-    	logger.info("Strings.lowerUnderscoreToUpperCamel(): {}\t-> {}", string, Strings.lowerUnderscoreToUpperCamel(string));
+        assertEquals("aaBbCc", Strings.lowerUnderscoreToLowerCamel(string) );
+        assertEquals("AaBbCc", Strings.lowerUnderscoreToUpperCamel(string) );
+        string = "go_and_done";
+        assertEquals("GoAndDone", Strings.lowerUnderscoreToUpperCamel(string) );
+        assertEquals("goAndDone", Strings.lowerUnderscoreToLowerCamel(string) );
     }
 }
