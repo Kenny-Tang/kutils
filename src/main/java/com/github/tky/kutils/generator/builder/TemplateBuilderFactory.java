@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.tky.kutils.generator.GConfiguration;
+import com.github.tky.kutils.jdbc.DataSourceInfo;
 import com.github.tky.kutils.type.JdbcType;
 import com.github.tky.kutils.type.TypeHandler;
 
@@ -38,6 +39,7 @@ public class TemplateBuilderFactory {
 		setTypeHandler();
 		setPackageSub();
 		setOutputDir();
+		setDataSourceInfo(properties);
 
 		TemplateBuilder builder = null;
 		try {
@@ -47,6 +49,11 @@ public class TemplateBuilderFactory {
 		}
 
 		return builder;
+	}
+
+	private void setDataSourceInfo(Properties properties) {
+		configuration.setDataSourceInfo(new DataSourceInfo(properties.getProperty("k.generator.jdbc.driver"), properties.getProperty("k.generator.jdbc.url"),
+				properties.getProperty("k.generator.jdbc.username"), properties.getProperty("k.generator.jdbc.password")));
 	}
 
 	private void setDirectoryForTemplateLoadingFile() {

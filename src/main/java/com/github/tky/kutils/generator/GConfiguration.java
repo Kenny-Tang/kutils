@@ -18,6 +18,7 @@ public class GConfiguration {
 	private String outputDir;
 	private File directoryForTemplateLoadingFile;
 	private DataLoader dataLoader;
+	private DataSourceInfo dataSourceInfo;
 	private String templatesRoot = "ftls";
 	private boolean packageSub = false;
 	Properties properties = new Properties();
@@ -29,9 +30,12 @@ public class GConfiguration {
 		}
 	}
 
+	public void setDataSourceInfo(DataSourceInfo dataSourceInfo) {
+		this.dataSourceInfo = dataSourceInfo;
+	}
+
 	public DataSourceInfo getDataSourceInfo() {
-		return new DataSourceInfo(properties.getProperty("k.generator.jdbc.driver"), properties.getProperty("k.generator.jdbc.url"), properties.getProperty("k.generator.jdbc.username"),
-				properties.getProperty("k.generator.jdbc.password"));
+		return dataSourceInfo;
 	}
 
 	public Version getFreemarkerVersion() {
