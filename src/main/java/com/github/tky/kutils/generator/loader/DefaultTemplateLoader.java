@@ -27,6 +27,9 @@ public class DefaultTemplateLoader implements SourceFileLoader {
 	public List<File> load(File file) {
 
 		List<File> templates = new ArrayList<>();
+		if (file == null) {
+			return templates;
+		}
 		if (file.isDirectory()) {
 			File[] children = file.listFiles();
 			if (children != null) {

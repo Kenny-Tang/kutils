@@ -61,8 +61,14 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 			String ftl = absPath.substring(configuration.getTemplatesRoot().length() + 1 + absPath.indexOf(configuration.getTemplatesRoot()));
 
 			reader = new BufferedReader(new FileReader(file));
+			String path = getOutputPath(reader.readLine());
+			if (Strings.isEmpty(path)) {
+				reader.close();
+				reader = null;
+				reader = new BufferedReader(new FileReader(file));
+			}
 			Template template = new Template(file.getName(), reader, freemarkerConfiguration);
-			File outFile = createOutputFile(ftl, "");
+			File outFile = createOutputFile(ftl, path);
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
 			template.process(dataModel, out);
 		} catch (Exception e) {
@@ -76,6 +82,13 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 			}
 		}
 
+	}
+
+	protected String getOutputPath(String path) {
+		if (path.startsWith("KPATH")) {
+			return path;
+		}
+		return null;
 	}
 
 	private File createOutputFile(String ftl, String pkg) {
