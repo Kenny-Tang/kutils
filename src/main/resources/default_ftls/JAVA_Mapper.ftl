@@ -1,7 +1,17 @@
-KPATH: com/github/group/mapper
+/**
+ * @author  ${author} 
+ * @ClassName: ${table.upperCamelTable }Mapper   
+ * 
+ * @date ${ curentTime}
+ */
+public interface ${table.upperCamelTable }Mapper {
 
-package com.github.group.mapper;
+	 ${table.upperCamelTable } queryUiq${table.upperCamelTable }();
+	
+	List< ${table.upperCamelTable }> query();
+	
+	int save( ${table.upperCamelTable } order) ;
 
-public class ${table.upperCamelTable }Mapper {
+	void update( ${table.upperCamelTable } order);
 
 }
