@@ -3,6 +3,9 @@
 <mapper namespace="${table.upperCamelTable }">
 	
 	<resultMap id="${table.upperCamelTable }ResultMap" type="${table.upperCamelTable }">
+		<#list table.columns as field>
+		<result column="${field.columnName }" property="${field.lowerCamelColumn }" jdbcType="${field.jdbcType }" />
+		</#list>
 	</resultMap>
 	   
 	<sql id="${table.upperCamelTable }Columns">
@@ -21,9 +24,9 @@
     where 1=1
   </select>
   
-  <insert id="save" resultMap="${table.upperCamelTable }ResultMap">
- 		insert into ${table.tableName?lower_case } (id , optimistic, customer_no, customer_name, fee_type, cust_buss_brand_code, order_no, external_id, fee, trans_time, order_status , create_time, update_time) 
- 		values(sys_guid(), 0, ${r"#{"}customerNo ${r"}"} ${r"#{"}customerName ${r"}"} ${r"#{"}feeType ${r"}"} ${r"#{"}custBussBrandCode ${r"}"} ${r"#{"}orderNo ${r"}"} ${r"#{"}externalId ${r"}"} ${r"#{"}fee ${r"}"} ${r"#{"}transTime } , ${r"#{"}orderStatus ${r"}"} sysdate, ${r"#{"}updateTime} )
+  <insert id="save" parameterType="${table.upperCamelTable }">
+ 		insert into ${table.tableName?lower_case } (<include refid="${table.upperCamelTable}Columns" />) 
+ 		values(<#list table.columns as field>${r"#{"}${field.lowerCamelColumn }${r"}"}<#if field_has_next>,</#if> </#list>)
   </insert>
   
   <update id="update" parameterType="${table.upperCamelTable }">

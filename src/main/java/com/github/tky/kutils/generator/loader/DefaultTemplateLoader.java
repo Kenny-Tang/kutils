@@ -46,6 +46,7 @@ public class DefaultTemplateLoader implements SourceFileLoader {
 
 	private List<File> loadDefaultSourceFiles() {
 		List<File> templates = new ArrayList<>();
+		templates.add(new File(GConfiguration.class.getClassLoader().getResource("default_ftls/JAVA_.ftl").getFile()));
 		templates.add(new File(GConfiguration.class.getClassLoader().getResource("default_ftls/JAVA_Mapper.ftl").getFile()));
 		templates.add(new File(GConfiguration.class.getClassLoader().getResource("default_ftls/XML_Mapper.ftl").getFile()));
 		return templates;
