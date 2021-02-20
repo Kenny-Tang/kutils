@@ -8,6 +8,7 @@ import org.apache.maven.model.Model;
 
 import com.github.tky.kutils.Dates;
 import com.github.tky.kutils.Mavens;
+import com.github.tky.kutils.Strings;
 import com.github.tky.kutils.generator.GConfiguration;
 
 public abstract class AbstractDataLoader implements DataLoader {
@@ -23,7 +24,12 @@ public abstract class AbstractDataLoader implements DataLoader {
 		properties.put("author", System.getProperty("user.name"));
 		Model model = Mavens.getMaven();
 		properties.put("artifactId", model.getArtifactId().replace("-", "."));
-		properties.put("groupId", model.getGroupId().replace("-", "."));
+		String groupId = model.getGroupId();
+		if(Strings.isEmpty(groupId)) {
+			groupId = model.getParent().getGroupId();
+		}
+		groupId = groupId.replace("-", ".") ;
+		properties.put("groupId", groupId);
 		Map<Object, Object> info = queryDataInfo();
 		if (info != null) {
 			properties.putAll(info);

@@ -29,9 +29,9 @@ public class TemplateBuilderFactory {
 		Properties properties = new Properties();
 		ClassLoader classLoader = this.getClass().getClassLoader();
 		try {
-			properties.load(classLoader.getResourceAsStream("application.properties"));
+			properties.load(classLoader.getResourceAsStream("generator.properties"));
 		} catch (IOException e) {
-			throw new RuntimeException("Resource application.properties not found!");
+			throw new RuntimeException("Resource generator.properties not found!");
 		}
 		configuration.addProperties(properties);
 
