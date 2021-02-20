@@ -12,7 +12,7 @@ public class TableTemplateBuilderTest {
 	public void testGenerate() {
 		TemplateBuilder builder = new TemplateBuilderFactory().build();
 		TableInfoLoader dataLoader = (TableInfoLoader) builder.getDataLoader();
-		dataLoader.setTable("CUSTOMER_RATE_PACKET_DETAIL");
+		dataLoader.setTable("RATE_PACKET_BUY_ORDER");
 		builder.generate();
 	}
 

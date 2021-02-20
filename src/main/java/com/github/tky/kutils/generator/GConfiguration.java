@@ -20,7 +20,6 @@ public class GConfiguration {
 	private DataLoader dataLoader;
 	private DataSourceInfo dataSourceInfo;
 	private String templatesRoot = "ftls";
-	private boolean packageSub = false;
 	Properties properties = new Properties();
 	TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
 
@@ -44,14 +43,6 @@ public class GConfiguration {
 
 	public void setFreemarkerVersion(Version freemarkerVersion) {
 		this.freemarkerVersion = freemarkerVersion;
-	}
-
-	public boolean isPackageSub() {
-		return packageSub;
-	}
-
-	public void setPackageSub(boolean packageSub) {
-		this.packageSub = packageSub;
 	}
 
 	public DataLoader getDataLoader() {

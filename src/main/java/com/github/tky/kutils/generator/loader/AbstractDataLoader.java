@@ -22,8 +22,8 @@ public abstract class AbstractDataLoader implements DataLoader {
 		properties.put("curentTime", Dates.format(new Date(), Dates.FMT_YYYY_MM_DD_HH_MM_SS));
 		properties.put("author", System.getProperty("user.name"));
 		Model model = Mavens.getMaven();
-		properties.put("artifactId", model.getArtifactId());
-		properties.put("groupId", model.getGroupId());
+		properties.put("artifactId", model.getArtifactId().replace("-", "."));
+		properties.put("groupId", model.getGroupId().replace("-", "."));
 		Map<Object, Object> info = queryDataInfo();
 		if (info != null) {
 			properties.putAll(info);

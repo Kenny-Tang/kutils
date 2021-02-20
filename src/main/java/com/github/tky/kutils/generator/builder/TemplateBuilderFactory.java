@@ -37,7 +37,6 @@ public class TemplateBuilderFactory {
 
 		setDirectoryForTemplateLoadingFile();
 		setTypeHandler();
-		setPackageSub();
 		setOutputDir();
 		setDataSourceInfo(properties);
 
@@ -52,8 +51,7 @@ public class TemplateBuilderFactory {
 	}
 
 	private void setDataSourceInfo(Properties properties) {
-		configuration.setDataSourceInfo(new DataSourceInfo(properties.getProperty("k.generator.jdbc.driver"), properties.getProperty("k.generator.jdbc.url"),
-				properties.getProperty("k.generator.jdbc.username"), properties.getProperty("k.generator.jdbc.password")));
+		configuration.setDataSourceInfo(new DataSourceInfo(properties.getProperty("k.generator.jdbc.driver"), properties.getProperty("k.generator.jdbc.url"), properties.getProperty("k.generator.jdbc.username"), properties.getProperty("k.generator.jdbc.password")));
 	}
 
 	private void setDirectoryForTemplateLoadingFile() {
@@ -71,13 +69,6 @@ public class TemplateBuilderFactory {
 		Properties properties = configuration.getProperties();
 		String outputDir = properties.getProperty("k.generator.output.dir", "src/main/java/");
 		configuration.setOutputDir(outputDir);
-	}
-
-	private void setPackageSub() {
-		Properties properties = configuration.getProperties();
-		String packageSub = properties.getProperty("k.generator.package.sub", "false");
-		boolean sub = Boolean.parseBoolean(packageSub);
-		configuration.setPackageSub(sub);
 	}
 
 	private void setTypeHandler() {

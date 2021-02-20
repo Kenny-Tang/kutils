@@ -61,10 +61,9 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 			String ftl = absPath.substring(configuration.getTemplatesRoot().length() + 1 + absPath.indexOf(configuration.getTemplatesRoot()));
 
 			reader = new BufferedReader(new FileReader(file));
-			String path = getOutputPath(reader.readLine());
+			String path = getOutputPath(reader.readLine(), dataModel);
 			if (Strings.isEmpty(path)) {
 				reader.close();
-				reader = null;
 				reader = new BufferedReader(new FileReader(file));
 			}
 			Template template = new Template(file.getName(), reader, freemarkerConfiguration);
@@ -84,14 +83,17 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 
 	}
 
-	protected String getOutputPath(String path) {
-		if (path.startsWith("KPATH")) {
-			return path;
+	protected String getOutputPath(String path, Map<Object, Object> dataModel) {
+		if (path.startsWith("KPATH:")) {
+			path = path.replace("KPATH:", "").replace(" ", "");
+			path = path.replace("${groupId}", (CharSequence) dataModel.get("groupId"));
+			path = path.replace("${artifactId}", (CharSequence) dataModel.get("artifactId"));
+			return path.replace("-", ".");
 		}
 		return null;
 	}
 
-	private File createOutputFile(String ftl, String pkg) {
+	private File createOutputFile(String ftl, String path) throws IOException {
 
 		if (!ftl.endsWith("ftl")) {
 			return null;
@@ -107,10 +109,10 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 		String generateFile = getOutputFilename() + suffix;
 
 		File outFile = null;
-		if (configuration.isPackageSub() && Strings.isNotEmpty(pkg)) {
-			outFile = new File(configuration.getOutputDir() + pkg + generateFile);
+		if (Strings.isNotEmpty(path)) {
+			outFile = new File(path.replace(".", File.separator) + File.separator + generateFile);
 		} else {
-			outFile = new File(configuration.getOutputDir() + ftl.replace(templateFilename, generateFile));
+			outFile = new File(ftl.replace(templateFilename, generateFile));
 		}
 		Files.createFile(outFile);
 

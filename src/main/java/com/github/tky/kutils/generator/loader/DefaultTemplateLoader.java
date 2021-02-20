@@ -49,6 +49,8 @@ public class DefaultTemplateLoader implements SourceFileLoader {
 		templates.add(new File(GConfiguration.class.getClassLoader().getResource("default_ftls/JAVA_.ftl").getFile()));
 		templates.add(new File(GConfiguration.class.getClassLoader().getResource("default_ftls/JAVA_Mapper.ftl").getFile()));
 		templates.add(new File(GConfiguration.class.getClassLoader().getResource("default_ftls/XML_Mapper.ftl").getFile()));
+		templates.add(new File(GConfiguration.class.getClassLoader().getResource("default_ftls/JAVA_Service.ftl").getFile()));
+		templates.add(new File(GConfiguration.class.getClassLoader().getResource("default_ftls/JAVA_Controller.ftl").getFile()));
 		return templates;
 	}
 

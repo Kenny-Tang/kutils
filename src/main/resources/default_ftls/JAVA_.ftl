@@ -1,4 +1,5 @@
-package com.github.group.model;
+KPATH:src/main/java/${groupId }.${artifactId }.model
+package ${groupId }.${artifactId }.model;
 
 import java.io.Serializable;
 <#list table.imports as import>
