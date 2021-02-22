@@ -3,8 +3,8 @@ package ${groupId }.${artifactId }.service;
 
 import java.util.List;
 
-import com.github.kenny.tang.kutils.mapper.${table.upperCamelTable }Mapper;
-import com.github.kenny.tang.kutils.model.${table.upperCamelTable };
+import ${groupId }.${artifactId }.mapper.${table.upperCamelTable }Mapper;
+import ${groupId }.${artifactId }.model.${table.upperCamelTable };
 
 public class ${table.upperCamelTable }Service {
 

@@ -1,6 +1,7 @@
 package com.github.tky.kutils.generator;
 
 import java.io.File;
+import java.util.List;
 import java.util.Properties;
 
 import com.github.tky.kutils.generator.loader.DataLoader;
@@ -21,8 +22,27 @@ public class GConfiguration {
 	private DataLoader dataLoader;
 	private DataSourceInfo dataSourceInfo;
 	private String templatesRoot = "ftls";
+	private boolean userDefaultTemplates = true ;
+	private List<Template> sources ;
 	Properties properties = new Properties();
 	TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
+
+	
+	public boolean isUserDefaultTemplates() {
+		return userDefaultTemplates;
+	}
+
+	public void setUserDefaultTemplates(boolean userDefaultTemplates) {
+		this.userDefaultTemplates = userDefaultTemplates;
+	}
+
+	public List<Template> getSources() {
+		return sources;
+	}
+
+	public void setSources(List<Template> sources) {
+		this.sources = sources;
+	}
 
 	public void addProperties(Properties data) {
 		if (data != null) {
@@ -109,4 +129,6 @@ public class GConfiguration {
 	public void setFileOverride(Boolean fileOverride) {
 		this.fileOverride = fileOverride;
 	}
+	
+	
 }
