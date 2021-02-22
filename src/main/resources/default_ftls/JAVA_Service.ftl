@@ -3,27 +3,32 @@ package ${groupId }.${artifactId }.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ${groupId }.${artifactId }.mapper.${table.upperCamelTable }Mapper;
 import ${groupId }.${artifactId }.model.${table.upperCamelTable };
 
+@Service
 public class ${table.upperCamelTable }Service {
 
+    @Autowired
 	private ${table.upperCamelTable }Mapper ${table.lowerCamelTable }Mapper;
 	
-	${table.upperCamelTable } queryUiq${table.upperCamelTable }() {
+	public ${table.upperCamelTable } queryUiq${table.upperCamelTable }() {
 		return ${table.lowerCamelTable }Mapper.queryUiq${table.upperCamelTable }();
 	}
 
-	List<${table.upperCamelTable }> query() {
+	public List<${table.upperCamelTable }> query() {
 		return ${table.lowerCamelTable }Mapper.query();
 	}
 
-	int save(${table.upperCamelTable } entity) {
+	public int save(${table.upperCamelTable } entity) {
 		${table.lowerCamelTable }Mapper.save(entity);
 		return 0;
 	}
 
-	void update(${table.upperCamelTable } entity) {
+	public void update(${table.upperCamelTable } entity) {
 		${table.lowerCamelTable }Mapper.update(entity);
 	}
 
