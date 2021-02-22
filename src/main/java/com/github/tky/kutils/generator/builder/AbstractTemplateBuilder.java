@@ -11,6 +11,9 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.tky.kutils.Files;
 import com.github.tky.kutils.Strings;
 import com.github.tky.kutils.generator.GConfiguration;
@@ -23,6 +26,7 @@ import freemarker.template.Template;
 
 public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass()) ;
 	Configuration freemarkerConfiguration = new Configuration(Configuration.VERSION_2_3_23);
 	private GConfiguration configuration;
 	DataLoader dataLoader;
@@ -68,10 +72,16 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 			}
 			Template template = new Template(file.getName(), reader, freemarkerConfiguration);
 			File outFile = createOutputFile(ftl, path);
+			if(outFile.exists() && !configuration.getFileOverride()) {
+				logger.info("File {} already exists!", outFile.getName());
+				return ;
+			}
+			Files.createFile(outFile);
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
 			template.process(dataModel, out);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
 			try {
 				if (reader != null) {
 					reader.close();
@@ -80,7 +90,6 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 				e1.printStackTrace();
 			}
 		}
-
 	}
 
 	protected String getOutputPath(String path, Map<Object, Object> dataModel) {
@@ -114,7 +123,6 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 		} else {
 			outFile = new File(ftl.replace(templateFilename, generateFile));
 		}
-		Files.createFile(outFile);
 
 		return outFile;
 	}

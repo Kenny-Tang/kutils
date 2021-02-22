@@ -17,6 +17,7 @@ public class GConfiguration {
 	private Version freemarkerVersion = Configuration.VERSION_2_3_23;
 	private String outputDir;
 	private File directoryForTemplateLoadingFile;
+	private Boolean fileOverride = false ;
 	private DataLoader dataLoader;
 	private DataSourceInfo dataSourceInfo;
 	private String templatesRoot = "ftls";
@@ -101,4 +102,11 @@ public class GConfiguration {
 		this.typeHandlerRegistry = typeHandlerRegistry;
 	}
 
+	public Boolean getFileOverride() {
+		return fileOverride;
+	}
+
+	public void setFileOverride(Boolean fileOverride) {
+		this.fileOverride = fileOverride;
+	}
 }
