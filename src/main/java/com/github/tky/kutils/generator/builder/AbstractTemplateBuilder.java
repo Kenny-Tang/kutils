@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -67,17 +66,15 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 			}
 
 			String path = null;
-			InputStream r = null;
-			if (file.getPath().contains("default_ftls")) {
-				r = this.getClass().getResourceAsStream("/default_ftls/" + file.getPath().substring(file.getPath().lastIndexOf(File.separator) + 1));
-				reader = new BufferedReader(new InputStreamReader(r));
+			if (absPath.contains("jar!") && absPath.contains("default_ftls")) {
+				String resource = absPath.substring(absPath.lastIndexOf("jar!") + 4).replace(File.separator, "/");
+				reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(resource)));
 			} else {
 				reader = new BufferedReader(new FileReader(file));
 			}
 
 			path = getOutputPath(reader.readLine(), dataModel);
 			if (Strings.isEmpty(path)) {
-				reader.close();
 				reader = new BufferedReader(new FileReader(file));
 			}
 			File outFile = createOutputFile(absPath, path);

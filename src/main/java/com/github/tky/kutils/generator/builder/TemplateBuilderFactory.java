@@ -67,7 +67,7 @@ public class TemplateBuilderFactory {
 
 	private void setOutputDir() {
 		Properties properties = configuration.getProperties();
-		String outputDir = properties.getProperty("k.generator.output.dir", "src/main/java/");
+		String outputDir = properties.getProperty("k.generator.output.dir", System.getProperty("user.dir"));
 		configuration.setOutputDir(outputDir);
 	}
 
