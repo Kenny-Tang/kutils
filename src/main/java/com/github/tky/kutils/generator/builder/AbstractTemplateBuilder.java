@@ -3,9 +3,12 @@ package com.github.tky.kutils.generator.builder;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
@@ -23,10 +26,11 @@ import com.github.tky.kutils.generator.loader.SourceFileLoader;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass()) ;
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	Configuration freemarkerConfiguration = new Configuration(Configuration.VERSION_2_3_23);
 	private GConfiguration configuration;
 	DataLoader dataLoader;
@@ -48,7 +52,6 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 				generate(file, dataModel);
 			}
 		}
-
 	}
 
 	@Override
@@ -62,23 +65,23 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 			if (!absPath.endsWith(".ftl")) {
 				return;
 			}
-			String ftl = absPath.substring(configuration.getTemplatesRoot().length() + 1 + absPath.indexOf(configuration.getTemplatesRoot()));
 
-			reader = new BufferedReader(new FileReader(file));
-			String path = getOutputPath(reader.readLine(), dataModel);
+			String path = null;
+			InputStream r = null;
+			if (file.getPath().contains("default_ftls")) {
+				r = this.getClass().getResourceAsStream("/default_ftls/" + file.getPath().substring(file.getPath().lastIndexOf(File.separator) + 1));
+				reader = new BufferedReader(new InputStreamReader(r));
+			} else {
+				reader = new BufferedReader(new FileReader(file));
+			}
+
+			path = getOutputPath(reader.readLine(), dataModel);
 			if (Strings.isEmpty(path)) {
 				reader.close();
 				reader = new BufferedReader(new FileReader(file));
 			}
-			Template template = new Template(file.getName(), reader, freemarkerConfiguration);
-			File outFile = createOutputFile(ftl, path);
-			if(outFile.exists() && !configuration.getFileOverride()) {
-				logger.info("File {} already exists!", outFile.getName());
-				return ;
-			}
-			Files.createFile(outFile);
-			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
-			template.process(dataModel, out);
+			File outFile = createOutputFile(absPath, path);
+			process(file, dataModel, reader, outFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -92,6 +95,17 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 		}
 	}
 
+	private void process(File source, Map<Object, Object> dataModel, BufferedReader reader, File outFile) throws IOException, FileNotFoundException, TemplateException {
+		Template template = new Template(source.getName(), reader, freemarkerConfiguration);
+		if (outFile.exists() && !configuration.getFileOverride()) {
+			logger.info("File {} already exists!", outFile.getName());
+			return;
+		}
+		Files.createFile(outFile);
+		Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
+		template.process(dataModel, out);
+	}
+
 	protected String getOutputPath(String path, Map<Object, Object> dataModel) {
 		if (path.startsWith("KPATH:")) {
 			path = path.replace("KPATH:", "").replace(" ", "");
@@ -102,8 +116,9 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 		return null;
 	}
 
-	private File createOutputFile(String ftl, String path) throws IOException {
+	private File createOutputFile(String absPath, String path) throws IOException {
 
+		String ftl = absPath.substring(configuration.getTemplatesRoot().length() + 1 + absPath.indexOf(configuration.getTemplatesRoot()));
 		if (!ftl.endsWith("ftl")) {
 			return null;
 		}
