@@ -16,8 +16,6 @@ public class TableTemplateBuilder extends AbstractTemplateBuilder {
 
 	@Override
 	public String getOutputFilename() {
-		if (tableInfoLoader.getAlias() != null)
-			return tableInfoLoader.getAlias();
 		return Strings.lowerUnderscoreToUpperCamel(tableInfoLoader.getTable());
 	}
 

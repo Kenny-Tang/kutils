@@ -21,7 +21,6 @@ public class TableInfoLoader extends AbstractDataLoader {
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private String table;
-	private String alias;
 
 	public TableInfoLoader() {
 		super();
@@ -48,8 +47,15 @@ public class TableInfoLoader extends AbstractDataLoader {
 		ResultSet rs = null;
 		try {
 			DatabaseMetaData metaData = connection.getMetaData();
+
+			String tableRemark = "";
+			ResultSet tableResultSet = metaData.getTables(null, null, table, new String[] { "TABLE" });
+			while (tableResultSet.next()) {
+				tableRemark = tableResultSet.getString("REMARKS");
+			}
 			rs = metaData.getColumns(connection.getCatalog(), "%", table, "%");
-			TableInfo tableInfo = new TableInfo(table, alias);
+			TableInfo tableInfo = new TableInfo(table, tableRemark);
+
 			while (rs.next()) {
 				ColumnInfo columnInfo = new ColumnInfo(rs);
 				TypeHandler typeHandler = this.getConfiguration().getTypeHandlerRegistry().getTypeHandler(columnInfo.getJdbcType());
@@ -59,7 +65,7 @@ public class TableInfoLoader extends AbstractDataLoader {
 				tableInfo.addImport(typeHandler.getTypeFullName(rs));
 			}
 			rs.close();
-			System.out.println(tableInfo);
+			logger.info("表信息：{}", tableInfo);
 			if (tableInfo.getColumns().size() == 0) {
 				logger.error("table {} does not exists !", table);
 			}
@@ -81,19 +87,6 @@ public class TableInfoLoader extends AbstractDataLoader {
 
 	public void setTable(String table) {
 		this.table = table;
-	}
-
-	public void setTable(String table, String alias) {
-		this.table = table;
-		this.alias = alias;
-	}
-
-	public String getAlias() {
-		return alias;
-	}
-
-	public void setAlias(String alias) {
-		this.alias = alias;
 	}
 
 	public String getTable() {

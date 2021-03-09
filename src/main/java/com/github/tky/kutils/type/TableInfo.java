@@ -6,40 +6,39 @@ import java.util.List;
 import com.github.tky.kutils.Strings;
 
 public class TableInfo {
-	
-	
-	private String tableName ;
-	private String alias ;
+
+	private String tableName;
+	private String tableRemark;
 	private List<ColumnInfo> columns = new ArrayList<ColumnInfo>();
 	private TypeSet imports = new TypeSet();
-	
+
 	public TableInfo() {
 		super();
 	}
-	
+
 	public TableInfo(String tableName, List<ColumnInfo> columns) {
 		super();
 		this.tableName = tableName;
 		this.columns = columns;
 	}
-	
+
 	public TableInfo(String tableName) {
 		super();
 		this.tableName = tableName;
 	}
-	
-	public TableInfo(String tableName, String alias) {
+
+	public TableInfo(String tableName, String tableRemark) {
 		super();
 		this.tableName = tableName;
-		this.alias = alias ;
+		this.tableRemark = tableRemark;
 	}
-	
+
 	public void addImport(String importType) {
-		this.imports.add(importType) ;
+		this.imports.add(importType);
 	}
-	
+
 	public void addColumnInfo(ColumnInfo columnInfo) {
-		this.columns.add(columnInfo) ;
+		this.columns.add(columnInfo);
 	}
 
 	public TypeSet getImports() {
@@ -53,30 +52,31 @@ public class TableInfo {
 	public String getTableName() {
 		return tableName;
 	}
-	
-	public String getUpperCamelTable () {
-		return Strings.lowerUnderscoreToUpperCamel(tableName) ;
+
+	public String getUpperCamelTable() {
+		return Strings.lowerUnderscoreToUpperCamel(tableName);
 	}
-	
-	public String getLowerCamelTable () {
-		return Strings.lowerUnderscoreToLowerCamel(tableName) ;
+
+	public String getLowerCamelTable() {
+		return Strings.lowerUnderscoreToLowerCamel(tableName);
 	}
-	
+
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
-	
-	public String getAlias() {
-      return alias;
-    }
-  
-    public void setAlias(String alias) {
-      this.alias = alias;
-    }
-  
-    public List<ColumnInfo> getColumns() {
+
+	public String getTableRemark() {
+		return tableRemark;
+	}
+
+	public void setTableRemark(String tableRemark) {
+		this.tableRemark = tableRemark;
+	}
+
+	public List<ColumnInfo> getColumns() {
 		return columns;
 	}
+
 	public void setColumns(List<ColumnInfo> columns) {
 		this.columns = columns;
 	}
@@ -85,5 +85,5 @@ public class TableInfo {
 	public String toString() {
 		return "TableInfo [tableName=" + tableName + ", columns=" + columns + "]";
 	}
-	
+
 }
