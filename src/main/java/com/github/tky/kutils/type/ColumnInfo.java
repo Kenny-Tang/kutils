@@ -24,6 +24,10 @@ public class ColumnInfo {
 	private Integer decimalDigits;
 	private String nullable;
 
+	public ColumnInfo() {
+		super();
+	}
+
 	public ColumnInfo(ResultSet rs) {
 		try {
 			columnName = rs.getString(ResultSetColumnKeys.COLUMN_NAME.name());
