@@ -33,7 +33,7 @@ public class TemplateBuilderFactory {
 		} catch (IOException e) {
 			throw new RuntimeException("Resource generator.properties not found!");
 		}
-		configuration.addProperties(properties);
+		configuration.addAllProperties(properties);
 
 		setDirectoryForTemplateLoadingFile();
 		setTypeHandler();

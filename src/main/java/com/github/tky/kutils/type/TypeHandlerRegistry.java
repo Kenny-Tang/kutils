@@ -4,8 +4,8 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class TypeHandlerRegistry {
-	
-	private final Map<JdbcType, TypeHandler>  jdbcTypeHandlerMap = new EnumMap<>(JdbcType.class);
+
+	private final Map<JdbcType, TypeHandler> jdbcTypeHandlerMap = new EnumMap<>(JdbcType.class);
 
 	public TypeHandlerRegistry() {
 		super();
@@ -15,20 +15,21 @@ public class TypeHandlerRegistry {
 		register(JdbcType.BIGINT, new DefaultTypeHandler());
 		register(JdbcType.VARCHAR, new DefaultTypeHandler());
 		register(JdbcType.TIMESTAMP, new DefaultTypeHandler());
+		register(JdbcType.DATE, new DefaultTypeHandler());
 		register(JdbcType.DECIMAL, new DefaultTypeHandler());
-	    register(JdbcType.NUMERIC, new DefaultTypeHandler());
+		register(JdbcType.NUMERIC, new DefaultTypeHandler());
 	}
 
 	public void register(JdbcType jdbcType, TypeHandler typeHandler) {
-		jdbcTypeHandlerMap.put(jdbcType, typeHandler) ;
+		jdbcTypeHandlerMap.put(jdbcType, typeHandler);
 	}
 
 	public TypeHandler getTypeHandler(JdbcType jdbcType) {
-		TypeHandler typeHandler = jdbcTypeHandlerMap.get(jdbcType) ;
-		if(typeHandler == null) {
-			throw new RuntimeException("No TypeHandler found for JdbcType : "+jdbcType);
+		TypeHandler typeHandler = jdbcTypeHandlerMap.get(jdbcType);
+		if (typeHandler == null) {
+			throw new RuntimeException("No TypeHandler found for JdbcType : " + jdbcType);
 		}
-		return typeHandler ;
+		return typeHandler;
 	}
-	  
+
 }

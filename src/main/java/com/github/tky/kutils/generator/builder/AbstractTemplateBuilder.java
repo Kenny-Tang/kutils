@@ -22,6 +22,7 @@ import com.github.tky.kutils.generator.GConfiguration;
 import com.github.tky.kutils.generator.loader.DataLoader;
 import com.github.tky.kutils.generator.loader.DefaultTemplateLoader;
 import com.github.tky.kutils.generator.loader.SourceFileLoader;
+import com.github.tky.kutils.str.DefaultTokenHandler;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -106,8 +107,8 @@ public abstract class AbstractTemplateBuilder implements TemplateBuilder {
 	protected String getOutputPath(String path, Map<Object, Object> dataModel) {
 		if (path.startsWith("KPATH:")) {
 			path = path.replace("KPATH:", "").replace(" ", "");
-			path = path.replace("${groupId}", (CharSequence) dataModel.get("groupId"));
-			path = path.replace("${artifactId}", (CharSequence) dataModel.get("artifactId"));
+			path = Strings.parse(path, "${", "}", new DefaultTokenHandler(dataModel));
+			logger.debug("getOutputPath: {}", path);
 			return path.replace("-", ".");
 		}
 		return null;

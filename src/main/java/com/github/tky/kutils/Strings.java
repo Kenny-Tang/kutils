@@ -1,6 +1,7 @@
 package com.github.tky.kutils;
 
 import com.github.tky.kutils.str.InPropertyHandler;
+import com.github.tky.kutils.str.TokenHandler;
 import com.google.common.base.CaseFormat;
 
 /**
@@ -93,5 +94,65 @@ public class Strings extends org.apache.commons.lang3.StringUtils {
 	 */
 	public static String lowerUnderscoreToUpperCamel(String string) {
 		return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, string);
+	}
+
+	/**
+	 * 替换含有占位符的字符串
+	 * 
+	 * @param text
+	 * @param openToken
+	 * @param closeToken
+	 * @param handler
+	 * @return
+	 */
+	public static String parse(String text, String openToken, String closeToken, TokenHandler handler) {
+		if (text == null || text.isEmpty()) {
+			return "";
+		}
+		int start = text.indexOf(openToken);
+		if (start == -1) {
+			return text;
+		}
+		char[] src = text.toCharArray();
+		int offset = 0;
+		final StringBuilder builder = new StringBuilder();
+		StringBuilder expression = null;
+		do {
+			if (start > 0 && src[start - 1] == '\\') {
+				builder.append(src, offset, start - offset - 1).append(openToken);
+				offset = start + openToken.length();
+			} else {
+				if (expression == null) {
+					expression = new StringBuilder();
+				} else {
+					expression.setLength(0);
+				}
+				builder.append(src, offset, start - offset);
+				offset = start + openToken.length();
+				int end = text.indexOf(closeToken, offset);
+				while (end > -1) {
+					if (end > offset && src[end - 1] == '\\') {
+						expression.append(src, offset, end - offset - 1).append(closeToken);
+						offset = end + closeToken.length();
+						end = text.indexOf(closeToken, offset);
+					} else {
+						expression.append(src, offset, end - offset);
+						break;
+					}
+				}
+				if (end == -1) {
+					builder.append(src, start, src.length - start);
+					offset = src.length;
+				} else {
+					builder.append(handler.handleToken(expression.toString()));
+					offset = end + closeToken.length();
+				}
+			}
+			start = text.indexOf(openToken, offset);
+		} while (start > -1);
+		if (offset < src.length) {
+			builder.append(src, offset, src.length - offset);
+		}
+		return builder.toString();
 	}
 }
