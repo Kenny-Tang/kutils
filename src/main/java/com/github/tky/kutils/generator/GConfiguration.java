@@ -43,7 +43,7 @@ public class GConfiguration {
 		this.sources = sources;
 	}
 
-	public void addProperties(String key, String value) {
+	public void addProperties(String key, Object value) {
 		this.properties.put(key, value);
 	}
 

@@ -4,9 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.junit.Test;
 
+import com.github.tky.kutils.str.DefaultTokenHandler;
 import com.github.tky.kutils.str.InPropertyHandler;
 
 public class StringsTest {
@@ -47,5 +49,16 @@ public class StringsTest {
 		string = "go_and_done";
 		assertEquals("GoAndDone", Strings.lowerUnderscoreToUpperCamel(string));
 		assertEquals("goAndDone", Strings.lowerUnderscoreToLowerCamel(string));
+	}
+
+	@Test
+	public void testParse() {
+		Properties properties;
+
+		properties = new Properties();
+		properties.setProperty("groupId", "com.github.kenny");
+		properties.setProperty("artifactId", "kutils");
+		String res = Strings.parse("KPATH:src/main/java/${groupId }.${artifactId }.model", "${", "}", new DefaultTokenHandler(properties));
+		assertEquals("KPATH:src/main/java/com.github.kenny.kutils.model", res);
 	}
 }
