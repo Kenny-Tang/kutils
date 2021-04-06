@@ -1,4 +1,4 @@
-package com.github.tky.kutils;
+package com.github.tky.kutils.excel;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -21,8 +21,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.github.tky.kutils.excel.RowHandler;
 
 public class Excels {
 
