@@ -16,7 +16,7 @@ public class EmialTest {
 
 	@Test
 	public void testEmail() {
-		String id = "test@aliyun.com"; //发送账户
+		String id = "report@jftx-tech.com"; //发送账户
 	    String pwd = "Re123456"; //账户密码
 		String smtp = "smtp.qiye.aliyun.com"; //smtp地址
 		Email email = new Email() ;

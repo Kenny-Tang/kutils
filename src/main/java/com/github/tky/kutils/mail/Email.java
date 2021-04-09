@@ -24,11 +24,15 @@ import org.slf4j.Logger;
 public class Email {
 
 	private static Logger logger = org.slf4j.LoggerFactory.getLogger(Email.class);
-
+	// 发件人地址
 	private String fromAddress;
+	// 邮件主题
 	private String subject;
+	// 邮件内容
 	private String content;
+	// 收件人列表
 	private List<String> receiveList;
+	// 附件列表
 	private List<Attachment> attachments;
 
 	/**
@@ -91,7 +95,7 @@ public class Email {
 			return new ByteArrayDataSource(attachment.getAttachmentBytes(), attachment.getMimeType());
 		}
 		if (attachment.getInputStream() != null) {
-			return new ByteArrayDataSource(attachment.getAttachmentBytes(), attachment.getMimeType());
+			return new ByteArrayDataSource(attachment.getInputStream(), attachment.getMimeType());
 		}
 
 		throw new RuntimeException("there is not attachment found, or it is not support yet, please check your code !");

@@ -18,7 +18,7 @@ public class DatesTest extends BaseTest {
         String pat = "yyyy-MM-dd";
         String[] pats = new String[]{"yyyy-MM-dd"};
 
-        Date tmp = Dates.parseDate(str,pat );
+        Date tmp = Dates.parse(str,pat );
         Date tmp1 = null;
         try {
             tmp1 = DateUtils.parseDate(str,pat);
@@ -31,7 +31,6 @@ public class DatesTest extends BaseTest {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println(target);
         Assert.assertEquals( tmp,target );
         Assert.assertEquals( tmp,tmp1 );
     }

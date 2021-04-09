@@ -17,6 +17,25 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
 	public static final String FMT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 	public static final String FMT_YYYY_MM_DD_HH_MM_SS_S = "yyyy-MM-dd HH:mm:ss.S";
 
+	public static Date parse(String dateStr) {
+		if(Strings.isBlank(dateStr)) {
+			return null ;
+		}
+		
+		dateStr = dateStr.trim();
+		String format = null ;
+		if(dateStr.matches("^\\d{4}-\\d{1,2}$")){
+			format = FMT_YYYY_MM ;
+        }else if(dateStr.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")){
+        	format = FMT_YYYY_MM_DD ;
+        } else if(dateStr.matches("^\\d{8}$")) {
+        	format = FMT_YYYYMMDD ;
+        } else if(dateStr.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")){
+        	format = FMT_YYYY_MM_DD_HH_MM_SS ;
+        }
+		return parse(dateStr, format) ;
+	}
+	
 	/**
 	 * 将一个字符串的日期按照指定的pattern转换成Date对象。
 	 * 
@@ -24,12 +43,12 @@ public class Dates extends org.apache.commons.lang3.time.DateUtils {
 	 * @param pattern 默认 {@link Dates.FMT_YYYY_MM_DD}
 	 * @return Date
 	 */
-	public static Date parseDate(String dateStr, String pattern) {
+	public static Date parse(String dateStr, String pattern) {
 		if (dateStr == null || dateStr.equals("")) {
-			throw new RuntimeException("dateStr can not be empty.");
+			return null ;
 		}
 		if (pattern == null || pattern.equals("")) {
-			pattern = FMT_YYYY_MM_DD;
+			throw new RuntimeException("pattern can not be null ");
 		}
 		try {
 			return new SimpleDateFormat(pattern).parse(dateStr);

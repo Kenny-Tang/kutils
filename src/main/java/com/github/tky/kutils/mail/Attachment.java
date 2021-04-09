@@ -5,10 +5,15 @@ import java.io.InputStream;
 
 public class Attachment {
 	
+	// 文件类型附件
 	private File attachmentFile ;
+	// 字节流类型附件
 	private byte[] attachmentBytes;
+	// 输入流类型附件
 	private InputStream inputStream ;
+	// 文件MIME类型
 	private String mimeType ;
+	// 附件名称
 	private String filename ;
 	
 	public File getAttachmentFile() {
