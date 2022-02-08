@@ -1,5 +1,8 @@
 package com.github.tky.kutils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Currencys {
 	static String[] HanDigiStr = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
 	static String[] HanDiviStr = { "", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿", "拾", "佰", "仟", "万", "拾", "佰", "仟" };
@@ -128,6 +131,17 @@ public class Currencys {
 			return HanDigiStr[0];
 		}
 		return RMBStr;
+	}
+
+	public static BigDecimal convertFenToYuan(Long amountFen) {
+		return convertFenToYuan(amountFen, 2, RoundingMode.HALF_UP) ;
+	}
+
+	public static BigDecimal convertFenToYuan(Long amountFen, int scale, RoundingMode mode) {
+		if (amountFen==null) {
+			return new BigDecimal(0);
+		}
+		return new BigDecimal(amountFen).divide(BigDecimal.valueOf(100), scale, mode);
 	}
 
 }
