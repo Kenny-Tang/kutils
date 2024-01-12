@@ -1,0 +1,100 @@
+@startuml
+start
+:初始化;
+:创建看门狗线程;
+fork
+    #00FF00:while(1);
+    note right
+    看门狗线程
+    end note
+    repeat
+    if(>2min没喂狗) then (Y)
+        #8EE5EE:取消alive节点;
+    endif
+    :sleep(5);
+    repeat while(1)
+fork again
+    #HotPink:while(1);
+    note left
+    agent线程
+    end note
+    repeat
+        if (注册标志==1) then (Y)
+            :喂狗;
+        else (N)
+        endif
+        :db_detect;
+        if(检测成功?) then (Y)
+            #A020F0:获取dead节点;
+            note left
+            根据dead节点中的DONE
+            关键字判断是否发生过回滚
+            end note
+            if(有dead节点? && 未回滚?) then (Y)
+                :db_clear_master;
+                note left
+                db_clear_master共干了4件事
+                ====
+                 * 1.kill session
+                 * 2.set global rpl_semi_sync_master_enabled=off !!!
+                 * 3.set global read_only=1
+                 * 4.stop slave
+                 end note
+                if(clear_mater成功?) then (Y)
+                    :调mysql_master_clear脚本;
+                    note left
+                    回滚脚本在这里调用的
+                    end note
+                    if(调用成功?) then (Y)
+                        #A020F0:修改dead节点DONE_SUCCESS;
+                    else (N)
+                        #A020F0:修改dead节点DONE_FAIL;
+                    endif
+                else (N)
+                    #HotPink:goto while(1);
+                    detach
+                endif
+            else (N)
+            endif
+            if(注册标志==0 && >60s未注册) then(Y)
+                #8EE5EE:注册alive节点;
+                :注册标志=1;
+            else (N)
+            endif
+            :10min更新一次dbrole;
+            note left
+            为一键切机房保存master机器
+            否则需要一台台的检测机器主备浪费时间
+            end note
+            :10min运行一次赋权脚本;
+        else (N)
+            #A020F0:获取dead节点;
+            if(有dead节点?) then (Y)
+                if(未回滚?) then (Y)
+                    :"db_clear_master";
+                    if(clear_master成功) then (Y)
+                    else (N)
+                        #HotPink:goto while(1);
+                        detach
+                    endif
+                else (N)
+                endif
+                :重新检测db_detect;
+                if("检测成功?") then (N)
+                else (Y)
+                    #HotPink:goto while(1);
+                    detach
+                endif
+            else (N)
+            endif
+            if("可忽略err?") then (N)
+                #8EE5EE:取消alive节点;
+                :注册标志=0;
+                #0000FF:exit(0);
+                stop
+            else (Y)
+            endif
+        endif
+        :sleep(1);
+        #HotPink:goto while(1);
+@enduml
